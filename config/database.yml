@@ -1,0 +1,8 @@
+development:
+  adapter: mysql
+  database: movies_development
+  username: root
+  password: 24048mic
+  socket: /var/run/mysqld/mysqld.sock
+  host: localhost
+
