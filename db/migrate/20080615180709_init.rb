@@ -4,7 +4,7 @@ class Init < ActiveRecord::Migration
     create_table :users do |table|
       table.column :name, :string
       table.column :email, :string, :null => false
-      table.column :password, :string, :limit => 32, :null => false
+      table.column :password, :string, :limit => 40, :null => false
       table.column :lost_key, :string
     end
       
