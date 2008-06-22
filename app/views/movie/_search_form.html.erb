@@ -1,0 +1,8 @@
+<% form_remote_tag(:url=>'movie/search', :update=>'results') do %>
+
+Search
+<%= text_field(:movie, :title) %>
+
+<% end %>
+<div id="results"></div>
+

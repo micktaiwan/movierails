@@ -1,0 +1,5 @@
+<ol>
+<%=render(:partial=>"search_result", :collection=>movies)%>
+</ol>
+<br/>
+<%= link_to_remote ('Ajouter un autre film', :url=>'movie/create_form', :update=>'new') %>

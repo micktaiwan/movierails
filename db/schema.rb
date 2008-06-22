@@ -12,15 +12,24 @@
 ActiveRecord::Schema.define(:version => 20080615180709) do
 
   create_table "movies", :force => true do |t|
-    t.string "name",     :null => false
-    t.string "imdb"
-    t.string "year"
-    t.string "director"
+    t.string   "title",      :null => false
+    t.string   "year"
+    t.string   "director"
+    t.datetime "created_at"
   end
 
-  create_table "movies_users", :force => true do |t|
-    t.string "movie_id"
-    t.string "user_id"
+  create_table "movies_users", :id => false, :force => true do |t|
+    t.integer  "movie_id",   :limit => 11
+    t.integer  "user_id",    :limit => 11
+    t.datetime "created_at"
+    t.text     "descr"
+    t.integer  "note",       :limit => 11
+  end
+
+  create_table "urls", :force => true do |t|
+    t.integer  "movie_id",   :limit => 11
+    t.string   "url"
+    t.datetime "created_at"
   end
 
   create_table "users", :force => true do |t|
@@ -29,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20080615180709) do
     t.string   "password",   :limit => 40, :null => false
     t.string   "lost_key"
     t.datetime "last_login"
+    t.datetime "created_at"
   end
 
 end
