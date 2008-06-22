@@ -1,6 +1,6 @@
 <li>
 <i>"<%= search_result.title %>"</i>
-directed by <b><%= search_result.director %></b>
+dirig&eacute; par <b><%= search_result.director %></b>
 (<%= search_result.year %>)
 <%= link_to_remote('Ajouter &agrave; mes films',:url=>{:controller=>'movie',:action=>'add',:id=>search_result.id}, :update=>'my_movies')%>
 </li>
