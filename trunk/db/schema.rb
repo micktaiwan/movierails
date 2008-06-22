@@ -18,12 +18,13 @@ ActiveRecord::Schema.define(:version => 20080615180709) do
     t.datetime "created_at"
   end
 
-  create_table "movies_users", :id => false, :force => true do |t|
+  create_table "opinions", :force => true do |t|
     t.integer  "movie_id",   :limit => 11
     t.integer  "user_id",    :limit => 11
     t.datetime "created_at"
-    t.text     "descr"
-    t.integer  "note",       :limit => 11
+    t.date     "saw_on"
+    t.text     "comment"
+    t.integer  "rating",     :limit => 11
   end
 
   create_table "urls", :force => true do |t|

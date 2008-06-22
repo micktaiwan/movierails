@@ -2,7 +2,7 @@ class WelcomeController < ApplicationController
   before_filter :login_required
 
 	def index
-		#u = session['user']
+		@my_movies = session['user'].movies
 	end
 	
 

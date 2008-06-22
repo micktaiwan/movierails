@@ -4,6 +4,6 @@
 <br/>
 Mes films:<br/>
 <ul id='my_movies'>
-<%= render(:partial=>"movie/my_movies", :collection=>session['user'].movies) %>
+<%= render(:partial=>"movie/my_movies", :collection=>@my_movies) %>
 </ul>
 

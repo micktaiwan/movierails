@@ -17,12 +17,13 @@ class Init < ActiveRecord::Migration
       table.column :created_at, :datetime
     end
       
-    create_table :movies_users, :id=>false do |table|
+    create_table :opinions do |table|
       table.column :movie_id, :integer
       table.column :user_id, :integer
       table.column :created_at, :datetime
-      table.column :descr, :text
-      table.column :note, :integer
+      table.column :saw_on, :date
+      table.column :comment, :text
+      table.column :rating, :integer
     end
       
     create_table :urls do |table|
@@ -36,7 +37,7 @@ class Init < ActiveRecord::Migration
   def self.down
     drop_table :users
     drop_table :movies
-    drop_table :movies_users
+    drop_table :opinions
     drop_table :urls
   end
 end

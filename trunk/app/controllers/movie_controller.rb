@@ -25,7 +25,16 @@ class MovieController < ApplicationController
   def create
     p = params['movie']
     m = Movie.new(p)
-    session['user'].movies << m
+    u = session['user']
+    op = params['opinion']
+    o = Opinion.new(
+      :user=>u,
+      :movie=>m,
+      :comment=>op['comment'],
+      :rating=>op['rating'].to_i
+      )
+    o.save
+    #session['user'].movies << m
     render(:text=>"<b>Film ajout&eacute; : #{p['title']}</b>")
   end
 
