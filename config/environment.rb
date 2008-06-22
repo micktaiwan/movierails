@@ -67,9 +67,4 @@ Rails::Initializer.run do |config|
  
   
 end
-  module LoginEngine
-    config :salt, "superhypersecretphrasethatonlyyouknowsitwow"
-  end
-
-  Engines.start :login
 
