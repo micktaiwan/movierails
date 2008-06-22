@@ -1,0 +1,25 @@
+Hi,
+
+<%=@i.name%> is inviting you to join his project "<%=@p.name%>" on PTM, a project and task manager.
+
+His/Her personal message to you is:
+
+===
+<%=@i.msg%>
+===
+
+<%if @i.invited_id==-1%>
+If you want to join, follow this link:
+http://protaskm.com/project/join/<%=@i.key%>
+
+If you do not want to join, just ignore this email.
+
+If you already are registered, just update your personal information by updating the email field and go to the dashboard. You will see the invitation link.
+<% else %>
+Since you already are a member, just log in and go to your dashboard to accept or refuse this invitation.
+<% end %>
+
+Best regards,
+PTM: http://protaskm.com
+For any question please email protask@protaskm.com.
+
