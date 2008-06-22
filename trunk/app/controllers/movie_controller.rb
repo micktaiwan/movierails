@@ -38,12 +38,36 @@ class MovieController < ApplicationController
     render(:text=>"<b>Film ajout&eacute; : #{p['title']}</b>")
   end
 
-  def add
+  def edit_comment_before_add
     id = params['id'].to_i
     m = Movie.find(id)
-    ms = session['user'].movies
-    ms << m if not ms.include?(m)
-    render(:partial=>"movie/my_movies", :collection=>session['user'].movies)
+    u = session['user']
+    if u.movies.include?(m)
+      render(:text=>"Deja dans vos films...")
+      return
+    end
+    render(:partial=>"add_form", :locals=>{:movie=>m})
+  end
+
+  def add
+    id = params['movie']['id'].to_i
+    m = Movie.find(id)
+    u = session['user']
+    if u.movies.include?(m)
+      render(:text=>"Deja dans vos films...")
+      return
+    end
+    
+    op = params['opinion']
+    o = Opinion.new(
+      :user=>u,
+      :movie=>m,
+      :comment=>op['comment'],
+      :rating=>op['rating'].to_i
+      )
+    o.save
+    render(:text=>"Ajout&eacute; !")
+    #render(:partial=>"movie/my_movies", :collection=>session['user'].movies)
   end
 
 end
