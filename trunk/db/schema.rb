@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20080615180709) do
     t.string "name"
     t.string "email",                  :null => false
     t.string "password", :limit => 32, :null => false
+    t.string "lost_key"
   end
 
 end

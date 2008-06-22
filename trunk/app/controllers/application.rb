@@ -1,18 +1,12 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-require 'login_engine'
-  
- 
 class ApplicationController < ActionController::Base
-  include LoginEngine
   helper :all # include all helpers, all the time
   layout 'general'
-
-  #helper :user
-  model :user
-    
-  before_filter :login_required
+  include LoginSystem
+  
+  before_filter :disable_link_prefetching
   
     
   # See ActionController::RequestForgeryProtection for details
@@ -24,7 +18,17 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
   
-  
+
+private
+
+   def disable_link_prefetching
+      if request.env["HTTP_X_MOZ"] == "prefetch" 
+         logger.debug "prefetch detected: sending 403 Forbidden" 
+         render_nothing "403 Forbidden" 
+         return false
+      end
+   end
+ 
   
 end
 
