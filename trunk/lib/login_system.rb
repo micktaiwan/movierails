@@ -80,7 +80,7 @@ module LoginSystem
       redirect_to default
     else
       #redirect_to :controller => "/"
-      redirect_to_url session['return-to']
+      redirect_to session['return-to']
       session['return-to'] = nil
     end
   end

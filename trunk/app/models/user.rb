@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   has_many :movies
   
   def self.authenticate(email, pass)
+    puts email
+    puts pass
     find(:first, :conditions=>["email=? AND password=?", email, sha1(pass)])
   end  
   

@@ -10,7 +10,7 @@ class AccountController < ApplicationController
     #STDERR.puts "Login"
     case request.method
       when :post
-        u = User.authenticate(params['user']['login'], params['user']['password'])
+        u = User.authenticate(params['user']['email'], params['user']['password'])
         if u
           session['user'] = u
           u.last_login = Time.now
