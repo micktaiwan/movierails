@@ -1,12 +1,8 @@
-Aucun film trouv&eacute;. Ajoutez votre film:<br/>
+<b><%= movie.title %></b><br/>
 <br/>
-<% form_remote_tag(:url=>'movie/create', :update=>'new') do %>
-<label for="movie_title">Titre (fr):</label>
-<%= text_field(:movie, :title) %><br/>
-<label for="movie_year">Ann&eacute;e</label>
-<%= text_field(:movie, :year) %><br/>
-<label for="movie_director">Directeur</label>
-<%= text_field(:movie, :director) %><br/>
+<% form_remote_tag(:url=>'movie/add', :update=>'new') do %>
+
+<%= hidden_field(:movie, :id, :value=>movie.id) %>
 
 <label for="opinion_rating">Note</label>
 <%= radio_button(:opinion, :rating, 1) %> 1
