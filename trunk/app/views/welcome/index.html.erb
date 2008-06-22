@@ -1,11 +1,9 @@
-Pour l'instant ya rien.<br/>
-Ca sera une appli pour partager les titres de nos derners films vus.<br/>
-Pouvoir avoir rapidement des idees de visionages.<br/>
-Se partager des titres pas des fichiers.<br/>
-Un peu comme <a href="http://www.librarything.com/">librarything</a> mais pour les films.<br/>
-<br/>
-En francais !<br/>
-(sauf le titre)<br/>  
-Youpi !<br/>
+<%= link_to_remote('Ajouter un nouveau film', :url=>{:controller=>'movie', :action=>'search_form'}, :update=>'new') %>
+<div id='new'></div>
 
+<br/>
+Mes films:<br/>
+<ul id='my_movies'>
+<%= render(:partial=>"movie/my_movies", :collection=>session['user'].movies) %>
+</ul>
 

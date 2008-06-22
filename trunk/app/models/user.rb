@@ -2,7 +2,7 @@ require 'digest/sha1'
 
 # this model expects a certain database layout and its based on the name/login pattern. 
 class User < ActiveRecord::Base
-  has_many :movies
+  has_and_belongs_to_many :movies
   
   def self.authenticate(email, pass)
     find(:first, :conditions=>["email=? AND password=?", email, sha1(pass)])

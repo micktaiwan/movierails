@@ -7,22 +7,28 @@ class Init < ActiveRecord::Migration
       table.column :password, :string, :limit => 40, :null => false
       table.column :lost_key, :string
       table.column :last_login, :datetime
+      table.column :created_at, :datetime
     end
       
     create_table :movies do |table|
-      table.column :name, :string, :null => false
+      table.column :title, :string, :null => false
       table.column :year, :string
       table.column :director, :string
+      table.column :created_at, :datetime
     end
       
-    create_table :movies_users do |table|
+    create_table :movies_users, :id=>false do |table|
       table.column :movie_id, :integer
       table.column :user_id, :integer
+      table.column :created_at, :datetime
+      table.column :descr, :text
+      table.column :note, :integer
     end
       
     create_table :urls do |table|
       table.column :movie_id, :integer
       table.column :url, :string
+      table.column :created_at, :datetime
     end
       
   end
