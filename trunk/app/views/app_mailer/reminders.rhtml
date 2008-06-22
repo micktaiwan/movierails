@@ -1,0 +1,19 @@
+Hi <%=@u.name%>,
+
+This is your tasks with past deadline:
+
+<%@dates.sort.each { |date, tasks| -%>
+<%= "#{date}" %>
+<%
+    tasks.sort_by{|t| [t.project.name]}.each { |t| -%>
+<%= "- #{t.project.name }: #{t.title}" %>
+<%  } -%>
+
+<% } -%>
+
+You can change your reminder options on your profile page.
+For any question please email protask@protaskm.com.
+
+Best regards,
+PTM: http://protaskm.com
+

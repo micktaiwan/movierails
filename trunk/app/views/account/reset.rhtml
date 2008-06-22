@@ -1,0 +1,26 @@
+<script>
+function disp_me(str) {
+   Element.hide('loading');
+   if(str!='0') {
+      alert(str);
+      return;
+      }
+   }
+   
+function ch_pwd_verify() {
+   Element.show('loading');
+   new Ajax.Request('/account/change_password/<%=@key%>', {asynchronous:true, evalScripts:true, onComplete:function(request){disp_me(request.responseText)}, parameters:Form.serialize('data_pwd')});
+   }
+</script>
+<h2>Password reset</h2>
+
+<p>You can now change your password.</p>
+<p>Please note that this url is only valid once. You will have to do the 'lost password process' again to change your password if you don't do it now.</p>
+
+<% form_tag :action => 'change_password' do %>
+<table id="data_pwd">
+<tr><td>Password</td><td><%= password_field(:pwd, :password, {:size => 15}) %></td></tr>
+<tr><td>Confirm</td><td><%= password_field(:pwd, :password_confirmation, {:size => 15}) %> type your password again</td></tr>
+<tr><td>&nbsp;</td><td><%= button_to_function("Reset", "ch_pwd_verify()", {:class => 'button'}) %><img id='loading' style="display:none;" src='/images/loading.gif'></td></tr>
+</table>
+<% end %>

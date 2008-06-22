@@ -1,0 +1,17 @@
+<% form_tag :action=> "signup" do %>
+
+  <h2>Signup</h2>
+  <%= error_messages_for 'user' %><br/>
+  
+  <label for="user_name">Name:</label>
+  <%= text_field "user", "name", :size => 30 %>Your real name<br/>
+  <label for="user_email">Email:</label>
+  <%= text_field "user", "email", :size => 30 %>Your login<br/>
+  <label for="user_password">Password:</label>
+  <%= password_field "user", "password", :size => 30 %><br/>
+  <label for="user_password_confirmation">Confirm:</label>
+  <%= password_field "user", "password_confirmation", :size => 30 %>Type your password again<br/>
+<br/>
+<input type="submit" value="Signup &#187;" class="submitbutton" />
+<% end %>
+
