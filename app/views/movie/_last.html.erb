@@ -1,4 +1,5 @@
 <li>
+<%=link_to_remote('Voir', {:url=>{:controller=>'movie', :action=>'entry', :id=>last.id}, :update=>'new'})%>
 <i>"<%= last.title %>"</i>
 dirig&eacute; par <b><%= last.director %></b>
 (<%= last.year %>)

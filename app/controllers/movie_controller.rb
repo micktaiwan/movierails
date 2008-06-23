@@ -70,4 +70,10 @@ class MovieController < ApplicationController
     #render(:partial=>"movie/my_movies", :collection=>session['user'].movies)
   end
 
+  def entry
+    @entry = Movie.find(params[:id])
+    @opinions = @entry.opinions
+    render(:partial=>'entry', :locals=>{:opinions=>@opinions})
+  end
+  
 end

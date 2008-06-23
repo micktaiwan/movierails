@@ -1,0 +1,9 @@
+<div class="entry">
+<h1><%=entry.title%></h1>
+Dirig&eacute; par <%=entry.director%> (<%=entry.year%>)<br/>
+</div>
+
+<div class="comment">
+<%= render(:partial=>'opinion', :collection=>opinions) %>
+</div>
+
