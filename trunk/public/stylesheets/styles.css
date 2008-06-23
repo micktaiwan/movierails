@@ -53,9 +53,9 @@ div#footer a {
     color: #8ef;
 }
 
-h2, h3 {
+h1, h2, h3 {
   letter-spacing: -1px;
-  text-transform: uppercase;
+  margin: 0;
 }
 
 h2 {
@@ -189,17 +189,6 @@ ul .sortablelist, .project_list {
     padding: 0px;
 }
 
-.project_list {
-  background: #fff;
-  opacity: 0.7;
-}
-
-ul.sortablelist li {
-    padding: 0px;
-    margin: 3px;
-    cursor: move;
-}
-
 #info, #notice {
     width: 180px;
     margin: 10px 0 10px 0;
@@ -210,11 +199,6 @@ ul.sortablelist li {
     color: #AAF;
 }
 
-table.tasks {
-    padding: 10px;
-    font-size: 10pt;
-    margin: 0;
-}
 
 label {
     width: 120px;
@@ -257,7 +241,6 @@ input, select {
     padding: 1px 3px 1px 3px;
     font-size: 10pt;
 }
-
 
 .done {
     background: inherit;
@@ -474,3 +457,18 @@ div.auto_complete ul strong.highlight {
   display: inline;
   background: #F00;
   }
+
+.entry {
+  border:1px solid #888;
+  margin:10px;
+  padding:10px;
+  background: #FFE;
+  }
+  
+.comment {
+  border:1px solid #888;
+  margin:10px;
+  padding:10px;
+  background: #EEE;
+  }
+
