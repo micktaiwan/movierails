@@ -464,6 +464,13 @@ div.auto_complete ul strong.highlight {
   padding:10px;
   background: #FFE;
   }
+
+.entry #menu {
+  color:#88F;
+  background: #FFD;
+  margin: 10px 0 0 0;
+  }
+
   
 .comment {
   border:1px solid #888;
