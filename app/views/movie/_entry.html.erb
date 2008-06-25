@@ -1,6 +1,18 @@
 <div class="entry">
+
 <h1><%=entry.title%></h1>
 Dirig&eacute; par <%=entry.director%> (<%=entry.year%>)<br/>
+
+
+<div id="menu">
+<% if(my) %>
+<%= link_to_remote('Retirer ce film de ma liste', {:url=>{:controller=>'movie',:action=>'remove', :id=>entry}, :update=>'new',:confirm=>"Cela effacera aussi vos commentaires. Voulez-vous retirer ce film de votre liste ?"}, {:class=>'btnlnk'}) %>
+<% else %>
+<%= link_to_remote('Ajouter ce film a ma liste', {:url=>{:controller=>'movie',:action=>'edit_comment_before_add', :id=>entry}, :update=>'new'}, {:class=>'btnlnk'}) %>
+<% end %>
+</div>
+
+
 </div>
 
 <div class="comment">

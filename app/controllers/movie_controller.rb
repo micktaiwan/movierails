@@ -43,37 +43,58 @@ class MovieController < ApplicationController
     m = Movie.find(id)
     u = session['user']
     if u.movies.include?(m)
-      render(:text=>"Deja dans vos films...")
+      render(:text=>"D&eacute;ja dans vos films...")
       return
     end
     render(:partial=>"add_form", :locals=>{:movie=>m})
+  end
+
+  def edit_comment
+    id = params['id'].to_i
+    @opinion = Opinion.find(id)
+    u = session['user']
+    if @opinion.user_id != u.id
+      render(:text=>"Ce film n'est pas dans votre liste...")
+      return
+    end
+    render(:partial=>"add_form", :locals=>{:movie=>@opinion.movie})
   end
 
   def add
     id = params['movie']['id'].to_i
     m = Movie.find(id)
     u = session['user']
-    if u.movies.include?(m)
-      render(:text=>"Deja dans vos films...")
-      return
+    op = params['opinion']
+    o = Opinion.find(:first, :conditions=>["user_id = ? AND movie_id = ?", u['id'], id])
+    if o
+      o.attributes = op
+      o.save
+      render(:text=>"Edit&eacute; !")
+    else
+      o = Opinion.new(
+        :user=>u,
+        :movie=>m,
+        :comment=>op['comment'],
+        :rating=>op['rating'].to_i
+        )
+      o.save
+      render(:text=>"Ajout&eacute; !")
     end
     
-    op = params['opinion']
-    o = Opinion.new(
-      :user=>u,
-      :movie=>m,
-      :comment=>op['comment'],
-      :rating=>op['rating'].to_i
-      )
-    o.save
-    render(:text=>"Ajout&eacute; !")
     #render(:partial=>"movie/my_movies", :collection=>session['user'].movies)
   end
+  
+  def remove
+    Opinion.find(:first, :conditions=>["user_id = ? AND movie_id = ?", session['user']['id'], params[:id]]).destroy
+    render(:text=>"Ce film a &eacute;t&eacute; retir&eacute; de votre liste!")
+  end
+  
 
   def entry
     @entry = Movie.find(params[:id])
-    @opinions = @entry.opinions
-    render(:partial=>'entry', :locals=>{:opinions=>@opinions})
+    opinions = @entry.opinions
+    my = session['user'].movies.include?(@entry)
+    render(:partial=>'entry', :locals=>{:opinions=>opinions, :my=>my})
   end
   
 end
