@@ -477,6 +477,11 @@ div.auto_complete ul strong.highlight {
   padding:10px;
   background: #EEE;
   }
+
+.my {
+  background: #EFE;
+  }
+
   
 .comment #user {
   color:#333;

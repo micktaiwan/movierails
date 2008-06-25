@@ -3,7 +3,7 @@ class WelcomeController < ApplicationController
 
 	def index
 		@my_movies = session['user'].movies
-		@last = Movie.find(:all, :limit=>5, :order=>'created_at desc')
+		@last = Movie.find(:all, :limit=>15, :order=>'created_at desc')
 	end
 	
 end
