@@ -467,15 +467,24 @@ div.auto_complete ul strong.highlight {
 
 .entry #menu {
   color:#88F;
-  background: #FFD;
   margin: 10px 0 0 0;
   }
 
-  
+ 
 .comment {
   border:1px solid #888;
   margin:10px;
   padding:10px;
   background: #EEE;
+  }
+  
+.comment #user {
+  color:#333;
+  background: #DDF;
+  border: 1px solid #333;
+  margin: 10px 0 0 0;
+  float:left;
+  width:100px;
+  margin:0 20px 0 0;
   }
 
