@@ -2,13 +2,12 @@
 
 <div id="user"><%= opinion.user.name %></div>
 <b>Note</b>: <%=opinion.rating%>/5
-
 <% if opinion.user_id == session['user']['id'].to_i %>
-<%= link_to_remote('Editer ce commentaire', {:url=>{:controller=>'movie',:action=>'edit_comment', :id=>opinion}, :update=>'new'}, {:class=>'btnlnk'}) %>
+<%= link_to_remote('Editer', {:url=>{:controller=>'movie',:action=>'edit_comment', :id=>opinion}, :update=>'new'}, {:class=>'btnlnk'}) %>
 <% end %>
 
 <br/>
 <%=opinion.comment%>
-
+(<%= time_ago_in_words(opinion.created_at)%> ago)<br/>
 
 </div>
