@@ -1,6 +1,6 @@
 <b><%= movie.title %></b><br/>
 <br/>
-<% form_remote_tag(:url=>'movie/add', :update=>'new') do %>
+<% form_remote_tag({:url=>'movie/add', :update=>'all'}) do %>
 
 <%= hidden_field(:movie, :id, :value=>movie.id) %>
 

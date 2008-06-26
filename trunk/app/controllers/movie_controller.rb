@@ -35,7 +35,8 @@ class MovieController < ApplicationController
       )
     o.save
     #session['user'].movies << m
-    render(:text=>"<b>Film ajout&eacute; : #{p['title']}</b>")
+    #render(:text=>"<b>Film ajout&eacute; : #{p['title']}</b>")
+    redirect_to(:action=>'update_all', :id=>m.id)
   end
 
   def edit_comment_before_add
@@ -69,7 +70,6 @@ class MovieController < ApplicationController
     if o
       o.attributes = op
       o.save
-      render(:text=>"Edit&eacute; !")
     else
       o = Opinion.new(
         :user=>u,
@@ -78,10 +78,8 @@ class MovieController < ApplicationController
         :rating=>op['rating'].to_i
         )
       o.save
-      render(:text=>"Ajout&eacute; !")
     end
-    
-    #render(:partial=>"movie/my_movies", :collection=>session['user'].movies)
+    redirect_to(:action=>'update_all', :id=>id)
   end
   
   def remove
@@ -89,12 +87,19 @@ class MovieController < ApplicationController
     render(:text=>"Ce film a &eacute;t&eacute; retir&eacute; de votre liste!")
   end
   
-
   def entry
     @entry = Movie.find(params[:id])
     opinions = @entry.opinions
     my = session['user'].movies.include?(@entry)
     render(:partial=>'entry', :locals=>{:opinions=>opinions, :my=>my})
+  end
+  
+  def update_all
+ 	  id = params[:id]
+    @entry = (id==nil ? nil:Movie.find(id))
+    @my_movies = session['user'].movies
+		@last = Movie.find(:all, :limit=>15, :order=>'created_at desc')
+ 		render(:template=>'welcome/index', :layout=>false)
   end
   
 end

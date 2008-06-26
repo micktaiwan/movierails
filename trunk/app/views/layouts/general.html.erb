@@ -24,6 +24,9 @@
 <span id="logout"><a href="/account/logout">logout</a></span>
 </ul>
 <div id="side">
+Bienvenue <%=session['user']['name']%>.<br/>
+<br/>
+
 <div id="notice"><% if flash[:notice] -%><h3>Notice</h3><%= flash[:notice] %><% end -%></div>
 <div id="info"><% if flash[:info] -%><h3>Info</h3><%= flash[:info] %><% end -%></div>  
 <div id="members"><% if flash[:members] -%><%= flash[:members] %><% end -%></div>  
@@ -31,9 +34,9 @@
 </div>
 
 <div id="content">
-Bienvenue <%=session['user']['name']%>.<br/>
-<br/>
+<div id="all">
 <%= yield %>
+</div>
 <p><br/></p>
 </div>
 
