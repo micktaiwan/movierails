@@ -1,0 +1,21 @@
+# call this script in a cron task:
+# MAILTO="admin@yoursite.com"
+# 0 0 * * 0 cd /home/protask/movies/script && /usr/local/bin/ruby runner -e production mail_changes
+
+
+
+new_movies = "Voici les nouveaux films depuis hier:\n"
+nb = 0
+
+Movie.find(:all, :conditions=>"created_at >= NOW() - INTERVAL 1 DAY").each { |m|
+  next if m.title == nil or m.title == ''
+  nb += 1
+  new_movies += "- '#{m.title}' par #{m.director} (#{m.year}) Note: #{m.rating} / 5\n"
+  }
+
+exit if nb == 0
+
+User.find(:all, :conditions=>"email != '' and want_mail = 1").each { |u|
+  AppMailer.deliver_mail_changes(u, new_movies)
+  }
+
