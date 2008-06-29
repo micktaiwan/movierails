@@ -1,0 +1,21 @@
+<table>
+<tr>
+
+<td>
+Derniers films:<br/>
+<ul id='last'>
+<%= render(:partial=>"movie/last", :collection=>@last) %>
+</ul>
+</td>
+
+<td>
+Meilleurs films:<br/>
+<ul id='best'>
+<%= render(:partial=>"movie/last", :collection=>@best ) %>
+</ul>
+</td>
+
+</tr>
+
+</table>
+

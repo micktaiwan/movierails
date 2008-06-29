@@ -2,9 +2,14 @@
 <div class="comment <%=my ? 'my':''%>">
 
 <div id="user"><%= opinion.user.name %></div>
+<% if opinion.rating == 0 %>
+Pas de note
+<% else %>
 <b>Note</b>: <%=opinion.rating%>/5
+<% end %>
+
 <% if my %>
-<%= link_to_remote('Editer', {:url=>{:controller=>'movie',:action=>'edit_comment', :id=>opinion}, :update=>'new'}, {:class=>'btnlnk'}) %>
+<%= link_to_remote('Editer', {:url=>{:controller=>'movie',:action=>'edit_comment', :id=>opinion}, :update=>'entry'}, {:class=>'btnlnk'}) %>
 <% end %>
 
 <br/>

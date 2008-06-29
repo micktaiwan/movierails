@@ -1,26 +1,3 @@
-<% form_remote_tag(:url=>'movie/search', :update=>'results') do %>
-
-Recherche:
-<%= text_field(:movie, :title) %>
-
-<% end %>
-<div id="results"></div>
-
-
-<div id='new'>
-<%
-if @entry 
-    opinions = @entry.opinions
-    my = session['user'].movies.include?(@entry)
-%>
-<%= render(:partial=>'entry', :locals=>{:opinions=>opinions, :my=>my}) %>
-<%
-end
-%>
-</div>
-
-<br/>
-
 Derniers films:<br/>
 <ul id='last'>
 <%= render(:partial=>"movie/last", :collection=>@last) %>

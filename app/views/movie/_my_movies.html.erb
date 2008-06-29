@@ -1,5 +1,5 @@
 <li>
-<%=link_to_remote('Voir', {:url=>{:controller=>'movie', :action=>'entry', :id=>my_movies.id}, :update=>'new'})%>
+<%=link_to_remote('Voir', {:url=>{:controller=>'movie', :action=>'entry', :id=>my_movies.id}, :update=>'entry'})%>
 <i>"<%= my_movies.title %>"</i>
 dirig&eacute; par <b><%= my_movies.director %></b>
 (<%= my_movies.year %>)
