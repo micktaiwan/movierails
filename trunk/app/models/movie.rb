@@ -3,6 +3,7 @@ class Movie < ActiveRecord::Base
 	has_many :users, :through=>:opinions
 	
 	def rating
+	# TODO: cache the rating !
     nb = 0
     sum = 0.0
     Opinion.find(:all, :conditions=>["movie_id = ?",self.id]).each { |o|
