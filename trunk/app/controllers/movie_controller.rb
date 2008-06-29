@@ -1,5 +1,13 @@
 class MovieController < ApplicationController
 
+  def index
+	  id = params[:id]
+    @entry = (id==nil ? nil : Movie.find(id))
+		#@my_movies = session['user'].movies
+		@last = Movie.find(:all, :limit=>15, :order=>'created_at desc')
+		@best = Movie.find(:all).sort_by{ |m| -m.rating}[0..14]
+  end
+  
   def search_form
     render(:partial=>'search_form')
   end
@@ -36,7 +44,7 @@ class MovieController < ApplicationController
     o.save
     #session['user'].movies << m
     #render(:text=>"<b>Film ajout&eacute; : #{p['title']}</b>")
-    redirect_to(:action=>'update_all', :id=>m.id)
+    redirect_to(:action=>'index', :id=>m.id)
   end
 
   def edit_comment_before_add
@@ -79,7 +87,7 @@ class MovieController < ApplicationController
         )
       o.save
     end
-    redirect_to(:action=>'update_all', :id=>id)
+    redirect_to(:action=>'index', :id=>id)
   end
   
   def remove
@@ -92,14 +100,6 @@ class MovieController < ApplicationController
     opinions = @entry.opinions
     my = session['user'].movies.include?(@entry)
     render(:partial=>'entry', :locals=>{:opinions=>opinions, :my=>my})
-  end
-  
-  def update_all
- 	  id = params[:id]
-    @entry = (id==nil ? nil:Movie.find(id))
-    @my_movies = session['user'].movies
-		@last = Movie.find(:all, :limit=>15, :order=>'created_at desc')
- 		render(:template=>'welcome/index', :layout=>false)
   end
   
 end

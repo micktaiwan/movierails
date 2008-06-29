@@ -20,6 +20,7 @@
 <ul id="header">
 <span id="clock"><%=Date.today.strftime('%A %b %d %Y')%></span>
 <span <% if cur=="welcome" then%>id="currentmenuline" <%end%>class="menuline"><a href="/">dashboard</a></span>
+<span <% if cur=="movie" then%>id="currentmenuline" <%end%>class="menuline"><a href="/movie">movies</a></span>
 <!--<span <% if cur=="myinfo" then%>id="currentmenuline" <%end%> class="menuline"><a href="/myinfo">profile</a></span>-->
 <span id="logout"><a href="/account/logout">logout</a></span>
 </ul>
@@ -34,9 +35,31 @@ Bienvenue <%=session['user']['name']%>.<br/>
 </div>
 
 <div id="content">
-<div id="all">
+<% form_remote_tag(:url=>'/movie/search', :update=>'entry') do %>
+
+Recherche:
+<%= text_field(:movie, :title) %>
+
+<% end %>
+
+<div id="entry">
+<%
+if @entry 
+    opinions = @entry.opinions
+    my = session['user'].movies.include?(@entry)
+%>
+<%= render(:partial=>'entry', :locals=>{:opinions=>opinions, :my=>my}) %>
+<%
+end
+%>
+</div>
+
+<br/>
+
+<div id="yield">
 <%= yield %>
 </div>
+
 <p><br/></p>
 </div>
 

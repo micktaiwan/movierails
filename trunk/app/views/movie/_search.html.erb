@@ -2,4 +2,4 @@
 <%=render(:partial=>"search_result", :collection=>movies)%>
 </ol>
 <br/>
-<%= link_to_remote('Ajouter un autre film', {:url=>{:controller=>'movie', :action=>'create_form'}, :update=>'new'}, :class=>'btnlnk') %>
+<%= link_to_remote('Ajouter un autre film', {:url=>{:controller=>'movie', :action=>'create_form'}, :update=>'entry'}, :class=>'btnlnk') %>
