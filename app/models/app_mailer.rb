@@ -63,5 +63,15 @@ class AppMailer < ActionMailer::Base
     @headers    = {}
   end
   
+  def mail_changes(u,text)
+    @subject    = "[Movies] New movies"
+    @body["u"]  = u
+    @body["text"] = text
+    @recipients = u.email
+    @from       = 'protask@protaskm.com'
+    @sent_on    = Time.now
+    @headers    = {}  
+  end
+  
 end
 
