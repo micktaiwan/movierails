@@ -12,7 +12,7 @@ class Movie < ActiveRecord::Base
         sum += o.rating
       end  
       }
-    return sum / nb if nb > 0
+    return sprintf("%0.3f",sum / nb).to_f if nb > 0
     return 0
 	end
 	 
