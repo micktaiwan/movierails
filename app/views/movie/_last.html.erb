@@ -1,5 +1,5 @@
 <li <% if session['user'].movies.include?(last)%>class="tosee"<%end%>>
-<%=link_to_remote('Voir', {:url=>{:controller=>'movie', :action=>'entry', :id=>last.id}, :update=>'entry'})%>
+<%=link_to_remote('Voir', {:url=>{:controller=>'movie', :action=>'entry', :id=>last.id}, :update=>'entry',:loading=>"loading('last#{last.id}',true)",:loaded=>"loading('last#{last.id}',false)"},{:id=>"last#{last.id}"})%>
 <i>"<%= last.title %>"</i>
 dirig&eacute; par <b><%= last.director %></b>
 (<%= last.year %>)
