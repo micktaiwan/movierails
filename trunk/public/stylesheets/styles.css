@@ -496,3 +496,8 @@ div.auto_complete ul strong.highlight {
 .tosee {
   background: #DFD;
   }
+  
+.loading {
+  color: #000;
+  background: #FF0;
+  }
