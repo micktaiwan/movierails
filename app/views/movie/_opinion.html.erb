@@ -13,7 +13,7 @@ Pas de note
 <% end %>
 
 <br/>
-<%=opinion.comment%>
+<%=opinion.comment.gsub(/\n/, '<br/>')%>
 (<%= time_ago_in_words(opinion.created_at)%> ago)<br/>
 
 </div>

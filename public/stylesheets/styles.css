@@ -184,56 +184,6 @@ ul.mylist {
     list-style-image: url(/images/bullet02.gif)
 }
 
-ul .sortablelist, .project_list {
-    margin: 0px;
-    padding: 0px;
-}
-
-#info, #notice {
-    width: 180px;
-    margin: 10px 0 10px 0;
-    color: #000;
-}
-
-#info span {
-    color: #AAF;
-}
-
-
-label {
-    width: 120px;
-    float: left;
-    text-align: right;
-    margin-right: 4px;
-    display: block
-}
-
-input, select {
-    font-family: Arial;
-    font-size: 10pt;
-    border: 1px solid #DDDDD0;
-    padding: 0;
-    margin: 2px;
-    background-color: #FFFFFF;
-}
-
-.submitbutton {
-    margin-left: 126px;
-}
-
-.button {
-    background-color: #DDF;
-    border: 1px solid #AAAAA0;
-    margin: 3px;
-    padding: 1px 3px 1px 3px;
-    font-size: 10pt;
-}
-
-.button_bar {
-    margin: 10px 0 10px 0;
-    padding: 0;
-  }
-
 .btnlnk {
     color: #343;
     background: #CEC;
@@ -242,189 +192,6 @@ input, select {
     font-size: 10pt;
 }
 
-.done {
-    background: inherit;
-    border: inherit;
-}
-
-.title_done {
-    color: #666;
-    text-decoration: line-through;
-}
-
-.groupbox {
-    border: 1px solid #AA9;
-    background: #FFE;
-    padding: 15px;
-    margin: 30px 0 0 0;
-}
-
-.groupbox #title {
-  width: 230px;
-  float: left;
-  margin-top: -30px;
-  padding: 2px;
-  border: 1px solid #AA9;
-  background: #FD4;
-  color: #333;
-  font-size: 1.1em;
-  font-weight: bold;
-  }
-
-
-.groupbox .subtitle {
-  padding: 3px;
-  font-weight: bold;
-  }
-
-.state {
-  border: 1px solid #777;
-  width: 60px;
-  display: inline;
-  padding:0 5px 0 5px;
-  font-size: 0.8em;
-  color: black;
-  }
-
-.inbox {
-  background: #D55;
-  }
-
-.next {
-  background: #F90;
-  }
-
-.waiting {
-  background: #FF5;
-  }
-
-.maybe {
-  background: #5F5;
-  }
-
-.ref {
-  background: #DDD;
-  }
-
-
-.help {
-  border: 1px solid #AA9;
-  background: #FFE;
-  padding: 15px;
-  margin: 30px 0 0 0;
-  font-size: 0.8em;
-  bottom: 0;
-  position: absolute;
-  }
-
-.help #title {
-  width: 230px;
-  float: left;
-  margin-top: -30px;
-  padding: 2px;
-  border: 1px solid #AA9;
-  background: #FD4;
-  color: #333;
-  font-weight: bold;
-  }
-
-.help #link {
-  margin: 0 0 4px 0;  
-  font-size: 0.9em;
-  }
-
-.tags {
-    display: inline;
-    font-size: small;
-    font-style: italic;
-    color: #333;
-    background-color: #FFA;
-}
-
-.tag {
-    display: inline;
-    font-size: small;
-    background-color: #AFA;
-    padding: 0 5px 0 5px;
-    border: solid 1px #8A8;
-    line-height:24px;
-    cursor: pointer;
-}
-
-.on {
-    background-color: #FA5;
-    border: solid 1px #A88;
-}
-
-.duetoday, .duepast, .duefutur, .duenear, .done_on {
-    display: inline;
-}
-
-.done_on {
-  font-size:smaller;
-}
-.duetoday {
-    background: #FF0;
-    font-weight: bold;
-    color: black;
-}
-
-.duenear {
-  background: #FD0;
-  color: black;
-  }
-  
-.duefutur {
-  background: #CE9;
-  color: black;
-  }
-
-.duepast {
-  background: #F77;
-  color: black;
-  }
-
-.priority {
-    display: inline;
-    border: 1px solid #888;
-    border-left: 1px solid #DDD;
-    border-top: 1px solid #DDD;
-    margin: 1px 5px 1px 2px;
-    padding: 0 3px 0 3px;
-    font-size: 0.7em;
-}
-
-.priority.p0, .p {
-    background-color: #A44;
-    color: white;
-}
-
-.priority.p1 {
-    background-color: #FAA;
-}
-
-.priority.p2 {
-    background-color: #FFA;
-}
-
-.priority.p3 {
-    background-color: #AFA;
-}
-
-.priority.p4 {
-    background-color: #EEE;
-}
-
-.resp {
-    color: #442;
-}
-
-.block_menu {
-  border: 1px solid #AAA;
-  background-color: #EEE;
-  padding: 10px;
-  margin: 0 0 10px 0;
-}
 
 /* autocomplete */
 
@@ -472,9 +239,9 @@ div.auto_complete ul strong.highlight {
 
  
 .comment {
-  border:1px solid #888;
   margin:10px;
   padding:10px;
+  border:1px solid #DDD;
   background: #EEE;
   }
 
@@ -485,12 +252,11 @@ div.auto_complete ul strong.highlight {
   
 .comment #user {
   color:#333;
-  background: #DDF;
-  border: 1px solid #333;
-  margin: 10px 0 0 0;
+  margin: 0 10px 0 0;
   float:left;
-  width:100px;
-  margin:0 20px 0 0;
+  min-width: 100px;
+  vertical-align: middle;
+  background: #DDD;
   }
 
 .tosee {
@@ -505,20 +271,30 @@ div.auto_complete ul strong.highlight {
 .notebook {
   width: 100%;
   margin:10px;
+  padding: 0;
   }
+  
 .notebook .bar {
   margin:0;
-  padding:10px 10px 0 0;
+  padding:0;
   }
   
 .notebook .tab {
   display: inline;
-  border: 1px solid black;
-  background: #BBE;
-  padding:3px;
+  border: 1px solid #AA7;
+  border-bottom: 1px solid #FFE;
+  padding: 5px;
+  vertical-align: middle;
+  text-align: left;
+  color: blue;
+  cursor: pointer;
+  background-color: #FFE;
   }
+  
 .notebook .content {
-  margin:0px;
-  padding:0px;
-  background: #FFF;
+  width: 95%;
+  border: 1px solid #AA7;
+  margin-top: 5px;
+  background-color: #FFE;
   }
+
