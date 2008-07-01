@@ -1,4 +1,4 @@
-require 'lib/proposer'
+#require 'lib/proposer'
 
 class MovieController < ApplicationController
   before_filter :login_required
@@ -39,13 +39,17 @@ class MovieController < ApplicationController
   		str += "item #{u.title} is owned by #{c} users other than user #{user.name}<br/>"
   		}
   	p.users.each { |u,c|
-  		str += "user #{u.name} has #{c} item in common, and has a weight of #{c}<br/>"
-  		str += "   user #{u.name} items: "+p.get_items(u,[]).collect{|m| m.title}.join(',') + "<br/>"
+  		str += "user <b>#{u.name}</b> has #{c} item in common, and has a weight of #{c}<br/>"
+  		str += "items: "+p.get_items(u,[]).collect{|m| m.title}.join(',') + "<br/>"
   		}
   	str += "<br/>"
   	str += "Finally here is the list of proposed items for user #{user.name}<br/>"
   	p.proposed_items.each { |item,count|
   		str += "#{item.title} has a weight of #{count}<br/>"
+  		}
+  	str += "<br/><b>En enlevant les navets, ca fait au final:</b><br/>"	
+  	p.proposed_items.each { |item,count|
+  		str += "- #{item.title}<br/>" if item.rating > 3
   		}
     #render(:partial=>'last', :collection=>@movies)
     render(:text=>str)
