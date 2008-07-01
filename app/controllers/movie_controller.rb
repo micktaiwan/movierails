@@ -1,12 +1,53 @@
+require 'Proposer'
+
 class MovieController < ApplicationController
   before_filter :login_required
 
   def index
 	  id = params[:id]
     @entry = (id==nil ? nil : Movie.find(id))
-		#@my_movies = session['user'].movies
 		@last = Movie.find(:all, :limit=>15, :order=>'created_at desc')
-		@best = Movie.find(:all).sort_by{ |m| -m.rating}[0..14]
+  end
+  
+  def last
+		@movies = Movie.find(:all, :limit=>15, :order=>'created_at desc')
+    render(:partial=>'last', :collection=>@movies)
+  end
+  
+  def best
+		@movies = Movie.find(:all).sort_by{ |m| -m.rating}[0..14]
+    render(:partial=>'last', :collection=>@movies)
+  end
+  
+  def most_watched
+		@movies = Movie.find(:all, :include=>'opinions').sort_by{ |m| -m.opinions.size}[0..14]
+    render(:partial=>'last', :collection=>@movies)
+  end
+  
+  def sugg
+		#m = Movie.find(:all)
+    #u = User.find(:all)
+    user = session['user']
+    p = Proposer.new
+    p.use_item_weight = true
+    p.db = Opinion.find(:all).map { |o| [o.user_id, o.movie_id, o.rating]}
+    str =  p.db.size.to_s + "<br/>"
+    p.propose(user.id)
+    str += "user #{user.name} items: #{p.user_items.join(',')}<br/>"
+  	p.items.each { |u,c|
+  		str += "item #{u} is owned by #{c} users other than user #{user.id}<br/>"
+  		}
+  	p.users.each { |u,c|
+  		str += "user #{u} has #{c} item in common, and has a weight of #{c}<br/>"
+  		str += "   user #{u} items: "+p.get_items(u,[]).join(',') + "<br/>"
+  		}
+  	str += "<br/>"
+  	str += "Finally here is the list of proposed items for user #{user.name}<br/>"
+  	p.proposed_items.each { |item,count|
+  		str += "#{item} has a weight of #{count}<br/>"
+  		}
+    #render(:partial=>'last', :collection=>@movies)
+    render(:text=>str)
   end
   
   def search_form
