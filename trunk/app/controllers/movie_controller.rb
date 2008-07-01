@@ -1,4 +1,4 @@
-require 'Proposer'
+require 'lib/proposer'
 
 class MovieController < ApplicationController
   before_filter :login_required
@@ -29,22 +29,23 @@ class MovieController < ApplicationController
     #u = User.find(:all)
     user = session['user']
     p = Proposer.new
-    p.use_item_weight = true
-    p.db = Opinion.find(:all).map { |o| [o.user_id, o.movie_id, o.rating]}
-    str =  p.db.size.to_s + "<br/>"
-    p.propose(user.id)
-    str += "user #{user.name} items: #{p.user_items.join(',')}<br/>"
+    #p.use_item_weight = true
+    p.db = Opinion.find(:all).map { |o| [o.user, o.movie]}
+    str = "<b>En test</b><br/>"
+    str +=  p.db.size.to_s + "<br/>"
+    p.propose(user)
+    str += "user #{user.name} items: #{p.user_items.collect{|m| m.title}.join(', ')}<br/>"
   	p.items.each { |u,c|
-  		str += "item #{u} is owned by #{c} users other than user #{user.id}<br/>"
+  		str += "item #{u.title} is owned by #{c} users other than user #{user.name}<br/>"
   		}
   	p.users.each { |u,c|
-  		str += "user #{u} has #{c} item in common, and has a weight of #{c}<br/>"
-  		str += "   user #{u} items: "+p.get_items(u,[]).join(',') + "<br/>"
+  		str += "user #{u.name} has #{c} item in common, and has a weight of #{c}<br/>"
+  		str += "   user #{u.name} items: "+p.get_items(u,[]).collect{|m| m.title}.join(',') + "<br/>"
   		}
   	str += "<br/>"
   	str += "Finally here is the list of proposed items for user #{user.name}<br/>"
   	p.proposed_items.each { |item,count|
-  		str += "#{item} has a weight of #{count}<br/>"
+  		str += "#{item.title} has a weight of #{count}<br/>"
   		}
     #render(:partial=>'last', :collection=>@movies)
     render(:text=>str)

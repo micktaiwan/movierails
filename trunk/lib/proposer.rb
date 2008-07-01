@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 # Proposer (c) 2006 Mickael Faivre-Macon
 # given a list of things someone own, and several other people list
 # propose a next thing to the initial person in function of other pepole items
