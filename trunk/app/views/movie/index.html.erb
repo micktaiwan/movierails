@@ -1,21 +1,18 @@
-<table>
-<tr>
+<div class="notebook">
+<div class="bar">
+<div class="tab"><%=link_to_remote('Derniers',{:url=>{:action=>'last'}, :update=>'mcontent'})%></div>
+<div class="tab"><%=link_to_remote('Meilleurs',{:url=>{:action=>'best'}, :update=>'mcontent'})%></div>
+<div class="tab"><%=link_to_remote('Plus regard&eacute;s',{:url=>{:action=>'most_watched'}, :update=>'mcontent'})%></div>
+<div class="tab"><%=link_to_remote('Suggestions',{:url=>{:action=>'sugg'}, :update=>'mcontent'})%></div>
+</div>
 
-<td>
-Derniers films:<br/>
-<ul id='last'>
+<div class="content">
+<ul id='mcontent'>
 <%= render(:partial=>"movie/last", :collection=>@last) %>
 </ul>
-</td>
+</div>
 
-<td>
-Meilleurs films:<br/>
-<ul id='best'>
-<%= render(:partial=>"movie/last", :collection=>@best ) %>
-</ul>
-</td>
+</div>
 
-</tr>
 
-</table>
 

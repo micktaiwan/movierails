@@ -2,7 +2,10 @@
 
 <h1><%=entry.title%></h1>
 Dirig&eacute; par <%=entry.director%> (<%=entry.year%>)<br/>
-
+<br/>
+<b>Note</b>: <%= entry.rating %> / 5<br/>
+<b>Public</b>: <%= entry.opinions.size %> personnes<br/>
+<br/>
 <div id="menu">
 <% if(my) %>
 <%= link_to_remote('Retirer ce film de ma liste', {:url=>{:controller=>'movie',:action=>'remove', :id=>entry}, :update=>'entry',:confirm=>"Cela effacera aussi vos commentaires. Voulez-vous retirer ce film de votre liste ?"}, {:class=>'btnlnk'}) %>
