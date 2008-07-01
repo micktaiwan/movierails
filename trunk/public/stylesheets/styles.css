@@ -95,6 +95,22 @@ a {
 a:hover {
     color: #66F;
 }
+label {
+    width: 120px;
+    float: left;
+    text-align: right;
+    margin-right: 4px;
+    display: block
+}
+
+input, select {
+    font-family: Arial;
+    font-size: 10pt;
+    border: 1px solid #DDDDD0;
+    padding: 0;
+    margin: 2px;
+    background-color: #FFFFFF;
+}
 
 #logo {
     color: #111;
