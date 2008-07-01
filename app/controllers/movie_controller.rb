@@ -31,8 +31,7 @@ class MovieController < ApplicationController
     p = Proposer.new
     #p.use_item_weight = true
     p.db = Opinion.find(:all).map { |o| [o.user, o.movie]}
-    str = "<b>En test</b><br/>"
-    str +=  p.db.size.to_s + "<br/>"
+    str = "<b>En test !</b><br/><br/>"
     p.propose(user)
     str += "user #{user.name} items: #{p.user_items.collect{|m| m.title}.join(', ')}<br/>"
   	p.items.each { |u,c|
@@ -49,7 +48,7 @@ class MovieController < ApplicationController
   		}
   	str += "<br/><b>En enlevant les navets, ca fait au final:</b><br/>"	
   	p.proposed_items.each { |item,count|
-  		str += "- #{item.title}<br/>" if item.rating > 3
+  		str += "- <a href='/movie/index/#{item.id}'>#{item.title}</a><br/>" if item.rating > 3
   		}
     #render(:partial=>'last', :collection=>@movies)
     render(:text=>str)
