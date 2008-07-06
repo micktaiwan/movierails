@@ -5,9 +5,11 @@ class MovieController < ApplicationController
   protect_from_forgery :only => [:index] 
 
   def index
+    session['user']['page'] = 'last'
 	  id = params[:id]
     @entry = (id==nil ? nil : Movie.find(id))
     get_movies
+		@movies = @movies[0..14]
   end
   
   def display_list
@@ -25,7 +27,7 @@ class MovieController < ApplicationController
   def best
     session['user']['page'] = 'best'
     get_movies
-		@movies = @movies.sort_by{ |m| -m.rating}[0..14]
+		@movies = @movies.sort_by{ |m| [-m.rating,-m.opinions.size]}[0..14]
     render(:partial=>'last', :collection=>@movies)
   end
   
@@ -164,6 +166,9 @@ class MovieController < ApplicationController
   def include_mine
     i = params['i'].to_i
     session['user']['include_mine'] = i
+    u = User.find(session['user'].id)
+    u.include_mine = i
+    u.save
     #render(:text=>session['user']['include_mine'])
     redirect_to(:action=>'display_list')
   end
