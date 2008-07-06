@@ -2,29 +2,42 @@
 
 class MovieController < ApplicationController
   before_filter :login_required
+  protect_from_forgery :only => [:index] 
 
   def index
 	  id = params[:id]
     @entry = (id==nil ? nil : Movie.find(id))
-		@last = Movie.find(:all, :limit=>15, :order=>'created_at desc')
+    get_movies
   end
   
+  def display_list
+    session['user']['page'] = 'last' if session['user']['page'] == nil
+    redirect_to(:action=>session['user']['page'])
+  end
+ 
   def last
-		@movies = Movie.find(:all, :limit=>15, :order=>'created_at desc')
+    session['user']['page'] = 'last'
+    get_movies
+		@movies = @movies[0..14]
     render(:partial=>'last', :collection=>@movies)
   end
   
   def best
-		@movies = Movie.find(:all).sort_by{ |m| -m.rating}[0..14]
+    session['user']['page'] = 'best'
+    get_movies
+		@movies = @movies.sort_by{ |m| -m.rating}[0..14]
     render(:partial=>'last', :collection=>@movies)
   end
   
   def most_watched
-		@movies = Movie.find(:all, :include=>'opinions').sort_by{ |m| -m.opinions.size}[0..14]
+    session['user']['page'] = 'most_watched'
+    get_movies
+		@movies = @movies.sort_by{ |m| [-m.opinions.size,-m.rating]}[0..14]
     render(:partial=>'last', :collection=>@movies)
   end
   
   def sugg
+    session['user']['page'] = 'sugg'
 		#m = Movie.find(:all)
     #u = User.find(:all)
     user = session['user']
@@ -47,8 +60,8 @@ class MovieController < ApplicationController
   		str += "#{item.title} has a weight of #{count}<br/>"
   		}
   	str += "<br/><b>En enlevant les navets, ca fait au final:</b><br/>"	
-  	p.proposed_items.each { |item,count|
-  		str += "- <a href='/movie/index/#{item.id}'>#{item.title}</a><br/>" if item.rating > 3
+  	p.proposed_items.sort_by {|item,count| -item.rating}.each { |item,count|
+  		str += "- <a href='/movie/index/#{item.id}'>#{item.title}</a> Note: #{item.rating}<br/>" if item.rating >= 3
   		}
     #render(:partial=>'last', :collection=>@movies)
     render(:text=>str)
@@ -148,4 +161,19 @@ class MovieController < ApplicationController
     render(:partial=>'entry', :locals=>{:opinions=>opinions, :my=>my})
   end
   
+  def include_mine
+    i = params['i'].to_i
+    session['user']['include_mine'] = i
+    #render(:text=>session['user']['include_mine'])
+    redirect_to(:action=>'display_list')
+  end
+  
+private
+
+  def get_movies
+		@movies = Movie.find(:all,:order=>'movies.created_at desc')
+		@movies -= session['user'].movies if session['user']['include_mine'] == false
+  end
+
 end
+

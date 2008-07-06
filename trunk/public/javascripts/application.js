@@ -9,3 +9,7 @@ function loading(id, bol) {
     $(id).removeClassName('loading');
   }
 
+function include_mine() {
+  include = $('include_mine').checked*1;
+  new Ajax.Updater("mcontent","/movie/include_mine/?i="+include,{asynchronous:true, evalScripts:true});
+  }

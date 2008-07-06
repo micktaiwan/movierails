@@ -4,11 +4,14 @@
 <div class="tab"><%=link_to_remote('Meilleurs',{:url=>{:action=>'best'}, :update=>'mcontent'})%></div>
 <div class="tab"><%=link_to_remote('Plus regard&eacute;s',{:url=>{:action=>'most_watched'}, :update=>'mcontent'})%></div>
 <div class="tab"><%=link_to_remote('Suggestions',{:url=>{:action=>'sugg'}, :update=>'mcontent'})%></div>
+
+<%= check_box('user','include_mine', {:onchange=>'include_mine();',:id=>'include_mine', :checked=>session['user']['include_mine']==1}) %> inclure mes films
+
 </div>
 
 <div class="content">
 <ul id='mcontent'>
-<%= render(:partial=>"movie/last", :collection=>@last) %>
+<%= render(:partial=>'last', :collection=>@movies) %>
 </ul>
 </div>
 
