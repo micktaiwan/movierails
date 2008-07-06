@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080629211146) do
+ActiveRecord::Schema.define(:version => 20080706194244) do
 
   create_table "movies", :force => true do |t|
     t.string   "title",      :null => false
@@ -35,12 +35,13 @@ ActiveRecord::Schema.define(:version => 20080629211146) do
 
   create_table "users", :force => true do |t|
     t.string   "name"
-    t.string   "email",                                      :null => false
-    t.string   "password",   :limit => 40,                   :null => false
+    t.string   "email",                                         :null => false
+    t.string   "password",     :limit => 40,                    :null => false
     t.string   "lost_key"
     t.datetime "last_login"
     t.datetime "created_at"
-    t.boolean  "want_mail",                :default => true
+    t.boolean  "want_mail",                  :default => true
+    t.boolean  "include_mine",               :default => false
   end
 
 end
