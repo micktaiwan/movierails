@@ -295,7 +295,7 @@ div.auto_complete ul strong.highlight {
   padding:0;
   }
   
-.notebook .tab {
+.notebook .bar .tab {
   display: inline;
   border: 1px solid #AA7;
   border-bottom: 1px solid #FFE;
@@ -304,7 +304,11 @@ div.auto_complete ul strong.highlight {
   text-align: left;
   color: blue;
   cursor: pointer;
-  background-color: #FFE;
+  background: #FFE;
+  }
+
+.selected {
+  font-weight:bold;
   }
   
 .notebook .content {
