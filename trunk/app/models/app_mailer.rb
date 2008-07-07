@@ -1,7 +1,7 @@
 class AppMailer < ActionMailer::Base
   
   def alert(title, msg)
-    @subject    = '[PTM] ' + title
+    @subject    = '[Movies] ' + title
     @body["msg"] = msg
     @recipients = 'faivrem@gmail.com'
     @from       = 'protask@protaskm.com'
@@ -20,7 +20,7 @@ class AppMailer < ActionMailer::Base
   end
   
   def registration_mail(user)
-    @subject    = '[PTM] Welcome'
+    @subject    = '[Movies] Bienvenue'
     @body["user"] = user
     @recipients = user.email
     @from       = 'protask@protaskm.com'
