@@ -16,7 +16,7 @@ class AccountController < ApplicationController
           u.last_login = Time.now
           u.save
           # send an email to admin
-          #AppMailer.deliver_alert("Login Alert","#{session['user']['name']} just logged on PTM")
+          AppMailer.deliver_alert("Login Alert","#{session['user']['name']} just logged on Movies")
           flash['notice']  = "Login successful"
           redirect_back_or_default :controller => "welcome"
         else
@@ -33,8 +33,8 @@ class AccountController < ApplicationController
         @user = User.new(params['user'])
         if @user.save      
           session['user'] = User.authenticate(@user.email, params['user']['password'])
-          #AppMailer.deliver_alert("Registration Alert","#{session['user']['name']} just registred on Movies")
-          #AppMailer.deliver_registration_mail(session['user']) # if not @user.email.blank?
+          AppMailer.deliver_alert("Registration Alert","#{session['user']['name']} just registered on Movies")
+          #AppMailer.deliver_registration_mail(session['user']) #if not @user.email.blank?
           redirect_back_or_default :controller => "welcome"
         end
       when :get
