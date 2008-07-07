@@ -1,6 +1,7 @@
 class AccountController < ApplicationController
   layout  'login'
   include LoginSystem
+  protect_from_forgery :only => [:index] 
   
   def index
      redirect_to :action => :login
@@ -80,10 +81,10 @@ class AccountController < ApplicationController
     # get key from db
     @user = User.find_by_lost_key(@key)
     # urls are valid 20 minutes
-    if @user!= nil and @user.updated_on < 20.minutes.ago
-      @user.update_attribute(:lost_key,'')    
-      @user = nil
-    end
+    #if @user!= nil and @user.updated_at < 20.minutes.ago
+    #  @user.update_attribute(:lost_key,'')    
+    #  @user = nil
+    #end
     if(@user==nil); redirect_to(:action=>:invalid_url); return; end
   end
 
@@ -98,9 +99,8 @@ class AccountController < ApplicationController
       # get key from db
       @user = User.find_by_lost_key(key)
       raise 'You can not change your password here. Please go on the login page to do again the load password process.' if(@user==nil)
-      #@user.update_attributes!(params[:pwd]) # raise an error if validation failed
+      @user.update_attribute(:lost_key,'') # the url is now invalid
       @user.update_attributes!(params[:pwd]) # raise an error if validation failed
-      #@user.update_attribute(:lost_key,'') # the url is now invalid
       #@user.save! # to trigger before_update
       #session['user'] = u # uncomment if you want the user to login automatically
       render(:text => 'You can now log in with your new password')
