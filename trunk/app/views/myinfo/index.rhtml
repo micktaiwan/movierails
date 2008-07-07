@@ -1,0 +1,75 @@
+<script>
+function disp_me(str) {
+   Element.hide('loading');
+   if(str!='0') {alert(str);return;}
+   $('notice').innerHTML = "Saved";
+   new Effect.Highlight('notice',{duration:3});     
+   }
+   
+function verify() {
+   if($('user_name').value=="") {
+      alert('Your name can not be empty');
+      return false;
+      }
+   //if($('user_login').value=="") {
+   //   alert('Your login can not be empty');
+   //   return false;
+   //   }
+   Element.show('loading');
+   $('notice').innerHTML = "&nbsp;";
+   new Ajax.Request('/myinfo/update', {asynchronous:true, evalScripts:true, onComplete:function(request){disp_me(request.responseText)}, parameters:Form.serialize('data')});
+   }
+   
+function ch_pwd_verify() {
+   Element.show('loading');
+   $('notice').innerHTML = "&nbsp;";
+   new Ajax.Request('/myinfo/update', {asynchronous:true, evalScripts:true, onComplete:function(request){disp_me(request.responseText)}, parameters:Form.serialize('data_pwd')});
+   }
+
+function ch_mail_options_verify() {
+   Element.show('loading');
+   $('notice').innerHTML = "&nbsp;";
+   new Ajax.Request('/myinfo/update', {asynchronous:true, evalScripts:true, onComplete:function(request){disp_me(request.responseText)}, parameters:Form.serialize('mail_options')});
+   }
+   
+</script>
+
+<h2>Mon profile</h2>
+<%
+e = @user.email
+
+if e != nil and  e != ''-%>
+<a href="http://www.gravatar.com/"><img align="left" src="http://www.gravatar.com/avatar.php?gravatar_id=<%=Digest::MD5.hexdigest(e)%>"></a>
+<% end -%>
+
+<% form_tag do %>
+<table id="data">
+<tr><td>Name</td><td><%= text_field(:user, :name, {:size => 25}) %></td></tr>
+<tr><td>&nbsp;</td><td><%= button_to_function("Sauver", "verify()", {:class => 'button'}) %>
+<img id='loading' style="display:none;" src='/images/loading.gif'></td></tr>
+</table>
+<% end %>
+<br />
+<br />
+<br />
+
+
+<h2>Changer de mot de passe</h2>
+<% form_tag :action => 'update' do %>
+<table id="data_pwd">
+<tr><td>Mot de passe</td><td><%= password_field(:user, :password, {:size => 15}) %></td></tr>
+<tr><td>Confirmation</td><td><%= password_field(:user, :password_confirmation, {:size => 15}) %> tapez votre mot de passe encore une fois</td></tr>
+<tr><td>&nbsp;</td><td><%= button_to_function("Sauver", "ch_pwd_verify()", {:class => 'button'}) %></td></tr>
+</table>
+<% end %>
+<br />
+<br />
+
+<h2>Option d'email</h2>
+<% form_tag  do %>
+<table id="mail_options">
+<tr><td><%= check_box(:user, :want_mail) %></td><td>envoi d'emails journaliers si nouveaux films</td></tr>
+<tr><td>&nbsp;</td><td><%= button_to_function("Sauver", "ch_mail_options_verify()", {:class => 'button'}) %></td></tr>
+</table>
+<% end %>
+
