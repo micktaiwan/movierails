@@ -32,6 +32,11 @@ class AccountController < ApplicationController
     case request.method
       when :post
         @user = User.new(params['user'])
+        if User.find_by_email(@user.email)
+          flash['error']  = "Email already taken"
+          return
+        end   
+        flash['error']  = ""
         if @user.save      
           session['user'] = User.authenticate(@user.email, params['user']['password'])
           AppMailer.deliver_alert("Registration Alert","#{session['user']['name']} just registered on Movies")
@@ -39,6 +44,7 @@ class AccountController < ApplicationController
           redirect_back_or_default :controller => "welcome"
         end
       when :get
+        flash['error']  = ""
         #@user = User.new
     end      
   end  

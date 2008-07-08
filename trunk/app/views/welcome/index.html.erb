@@ -3,6 +3,12 @@ Derniers films:<br/>
 <%= render(:partial=>"movie/last", :collection=>@last) %>
 </ul>
 
+Dernieres revues:<br/>
+<ul id='last'>
+<%= render(:partial=>"reviews/last", :collection=>@reviews) %>
+</ul>
+
+
 Mes films:<br/>
 <ul id='my_movies'>
 <%= render(:partial=>"movie/my_movies", :collection=>@my_movies) %>
