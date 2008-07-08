@@ -3,6 +3,8 @@
 class MovieController < ApplicationController
   before_filter :login_required
   protect_from_forgery :only => [:index] 
+  layout "general", :except => [:last_feed]
+
 
   def index
     session['user']['page'] = 'last'
@@ -18,10 +20,18 @@ class MovieController < ApplicationController
   end
  
   def last
-    session['user']['page'] = 'last'
-    get_movies
-		@movies = @movies[0..14]
-    render(:partial=>'last', :collection=>@movies)
+    respond_to do |format|
+      format.xml {
+		    @movies = Movie.find(:all, :limit=>15, :order=>'created_at desc')
+		    render :template => 'movie/last.xml.builder', :layout => false
+		    }
+		  format.html {
+        session['user']['page'] = 'last'
+        get_movies
+		    @movies = @movies[0..14]
+        render(:partial=>'last', :collection=>@movies)
+		    }  
+		end    
   end
   
   def best
