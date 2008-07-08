@@ -12,7 +12,7 @@ xml.rss(:version=>"2.0"){
           #xml.author(m.director)               
           xml.pubDate(m.created_at.strftime("%a, %d %b %Y %H:%M:%S %z"))
           xml.link("http://movies.protaskm.com/movie/index/#{m.id}")
-          xml.guid("http://movies.protaskm.com/movie/index/#{m.id}")
+          #xml.guid("http://movies.protaskm.com/movie/index/#{m.id}")
         end
       end
   }
