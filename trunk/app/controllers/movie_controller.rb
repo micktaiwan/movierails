@@ -1,10 +1,8 @@
 #require 'lib/proposer'
 
 class MovieController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :except => [:last]
   protect_from_forgery :only => [:index] 
-  layout "general", :except => [:last_feed]
-
 
   def index
     session['user']['page'] = 'last'
