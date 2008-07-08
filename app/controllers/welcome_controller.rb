@@ -6,6 +6,7 @@ class WelcomeController < ApplicationController
     @entry = (id==nil ? nil : Movie.find(id))
 		@my_movies = session['user'].movies
 		@last = Movie.find(:all, :limit=>15, :order=>'created_at desc')
+		@reviews = Opinion.find(:all, :include=>['movie','user'], :limit=>15, :order=>'created_at desc')
 	end
 	
 end
