@@ -133,13 +133,15 @@ class MovieController < ApplicationController
 
   def edit_comment_before_add
     id = params['id'].to_i
-    m = Movie.find(id)
-    u = session['user']
-    if u.movies.include?(m)
+    movie = Movie.find(id)
+    user  = session['user']
+    if user.movies.include?(movie)
       render(:text=>"D&eacute;ja dans vos films...")
       return
     end
-    render(:partial=>"add_form", :locals=>{:movie=>m})
+    urls = Url.find(:all,:conditions=>["movie_id=? and user_id=?",id,user.id])
+    urls = []  if !urls
+    render(:partial=>"add_form", :locals=>{:movie=>movie, :urls=>urls})
   end
 
   def edit_comment
