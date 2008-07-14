@@ -1,0 +1,14 @@
+<li>
+<% form_remote_tag(:url=>{:controller=>'url',:action=>'create'}) do %>
+
+<label for="url_name">Nom du lien</label>
+<% text_field('url','name') %>
+<input type="text" name="name[]"><br/>
+
+<label for="url_url">Lien</label>
+<% text_field('url','url',:value=>"http://") %>
+<input type="text" name="url[]" value="http://"><br/>
+
+<% end %>
+</li>
+

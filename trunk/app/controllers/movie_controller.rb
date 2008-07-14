@@ -101,19 +101,33 @@ class MovieController < ApplicationController
 
   def create
     p = params['movie']
-    m = Movie.new(p)
-    u = session['user']
-    op = params['opinion']
-    o = Opinion.new(
-      :user=>u,
-      :movie=>m,
+    movie = Movie.new(p) # TODO: verify that this exact title (and year) does not exists ?
+    user  = session['user']
+    op    = params['opinion']
+    o     = Opinion.new(
+      :user=>user,
+      :movie=>movie,
       :comment=>op['comment'],
       :rating=>op['rating'].to_i
       )
-    o.save
-    #session['user'].movies << m
-    #render(:text=>"<b>Film ajout&eacute; : #{p['title']}</b>")
-    redirect_to(:action=>'index', :id=>m.id)
+    o.save # I don't why I do not have to save the movie
+
+    # urls
+    names = params['name']
+    urls = params['url']
+    names.each_with_index do |n,i|
+      if n != ''
+        url = Url.new(
+          :movie=>movie,
+          :user=>user,
+          :name=>n,
+          :url=>urls[i]
+          )
+        url.save
+      end
+    end
+    
+    redirect_to(:action=>'index', :id=>movie.id)
   end
 
   def edit_comment_before_add
