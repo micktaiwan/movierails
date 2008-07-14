@@ -2,9 +2,14 @@
 
 <h1><%=entry.title%></h1>
 Dirig&eacute; par <%=entry.director%> (<%=entry.year%>)<br/>
-<ol>
+<br/>
+Liens:
+<ol style="margin:0;">
 <%= render(:partial=>'url/url', :collection=>entry.urls, :order=>'created_at') %>
+<li><a href="http://www.imdb.com/find?q=<%=CGI::escape(entry.title)%>">Chercher IMDB</a></li>
+<li><a href="http://www.youtube.com/results?search_query=<%=CGI::escape(entry.title+" "+entry.director)%>">Chercher Youtube</a></li>
 </ol>
+<br/>
 <b>Note</b>: <%= entry.rating %> / 5<br/>
 <b>Public</b>: <%= entry.opinions.size %> personnes<br/>
 <br/>
@@ -19,5 +24,5 @@ Dirig&eacute; par <%=entry.director%> (<%=entry.year%>)<br/>
 </div>
 
 Revues sur ce film:
-<%= render(:partial=>'opinion', :collection=>opinions) %>
+<%= render(:partial=>'opinion', :collection=>entry.opinions) %>
 

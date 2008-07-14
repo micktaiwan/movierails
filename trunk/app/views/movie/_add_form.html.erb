@@ -14,7 +14,15 @@
 <label for="opinion_comment">Votre revue:</label>
 <%= text_area(:opinion, :comment, :cols=>60, :rows=>20) %><br/>
 
+<ol style="margin:0;">
+<%= render(:partial=>'url/url', :collection=>urls, :order=>'created_at') %>
+</ol>
 
+<ol id='urls'></ol>
+
+<%= link_to_remote("Ajouter une adresse", :url=>{:controller=>"url", :action=>"create_form"}, :update=>'urls', :position=>:bottom)%><br/>
+Les liens avec un nom vide ne seront pas ajout&eacute;s
+<br/>
 <input type="submit" value="Ajouter &#187;" class="submitbutton" />
 
 <% end %>

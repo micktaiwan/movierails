@@ -115,8 +115,9 @@ class MovieController < ApplicationController
     # urls
     names = params['name']
     urls = params['url']
-    names.each_with_index do |n,i|
-      if n != ''
+    if names != nil
+      names.each_with_index { |n,i|
+        next if n == ''
         url = Url.new(
           :movie=>movie,
           :user=>user,
@@ -124,7 +125,7 @@ class MovieController < ApplicationController
           :url=>urls[i]
           )
         url.save
-      end
+        }
     end
     
     redirect_to(:action=>'index', :id=>movie.id)
@@ -144,31 +145,47 @@ class MovieController < ApplicationController
   def edit_comment
     id = params['id'].to_i
     @opinion = Opinion.find(id)
-    u = session['user']
-    if @opinion.user_id != u.id
-      render(:text=>"Ce film n'est pas dans votre liste...")
-      return
-    end
-    render(:partial=>"add_form", :locals=>{:movie=>@opinion.movie})
+    user = session['user']
+    render(:text=>"Ce film n'est pas dans votre liste...") and return if @opinion.user_id != user.id
+    #urls = Url.find_by_movie_id_and_user_id(id,user.id)
+    urls = Url.find(:all,:conditions=>["movie_id=? and user_id=?",id,user.id])
+    urls = []  if !urls
+    render(:partial=>"add_form", :locals=>{:movie=>@opinion.movie, :urls=>urls})
   end
 
   def add
     id = params['movie']['id'].to_i
-    m = Movie.find(id)
-    u = session['user']
+    movie = Movie.find(id)
+    user  = session['user']
     op = params['opinion']
-    o = Opinion.find(:first, :conditions=>["user_id = ? AND movie_id = ?", u['id'], id])
+    o = Opinion.find(:first, :conditions=>["user_id = ? AND movie_id = ?", user['id'], id])
     if o
       o.attributes = op
       o.save
     else
       o = Opinion.new(
-        :user=>u,
-        :movie=>m,
+        :user=>user,
+        :movie=>movie,
         :comment=>op['comment'],
         :rating=>op['rating'].to_i
         )
       o.save
+    end
+    
+    # urls
+    names = params['name']
+    urls = params['url']
+    if names != nil
+      names.each_with_index { |n,i|
+        next if n == ''
+        url = Url.new(
+          :movie=>movie,
+          :user=>user,
+          :name=>n,
+          :url=>urls[i]
+          )
+        url.save
+        }
     end
     redirect_to(:action=>'index', :id=>id)
   end
@@ -179,10 +196,10 @@ class MovieController < ApplicationController
   end
   
   def entry
-    @entry = Movie.find(params[:id])
-    opinions = @entry.opinions
+    @entry = Movie.find(params[:id], :include=>"opinions")
+    @user = session['user']
     my = session['user'].movies.include?(@entry)
-    render(:partial=>'entry', :locals=>{:opinions=>opinions, :my=>my})
+    render(:partial=>'entry', :locals=>{:my=>my})
   end
   
   def include_mine

@@ -1,2 +1,7 @@
-<li><a href="<%= url.url %>"><%= url.name %></a></li>
+<li id="url_<%=url.id%>">
+<a href="<%= url.url %>"><%= url.name %></a>
+<% if url.user_id == session['user']['id'].to_i %>
+[<%= link_to_remote('supprimer',:url=>{:controller=>'url',:action=>'del',:id=>url}, :update=>"url_#{url.id}", :confirm=>"Supprimer ce lien ?")%>]
+<% end %>
+</li>
 
