@@ -15,11 +15,15 @@ Aucun film trouv&eacute;. Ajoutez votre film:<br/>
 <%= radio_button(:opinion, :rating, 4) %> 4
 <%= radio_button(:opinion, :rating, 5) %> 5<br/>
 
-<label for="opinion_comment">Commentaires</label>
+<label for="opinion_comment">Votre revue</label>
 <%= text_area(:opinion, :comment) %><br/>
 
+<ol id='urls'></ol>
 
-<input type="submit" value="Ajouter &#187;" class="submitbutton" />
+<%= link_to_remote("Ajouter une adresse", :url=>{:controller=>"url", :action=>"create_form"}, :update=>'urls', :position=>:bottom)%><br/>
+Les liens avec un nom vide ne seront pas ajout&eacute;s
+<br/>
+<input type="submit" value="Ajouter ce film &#187;" class="submitbutton" />
 
 <% end %>
 

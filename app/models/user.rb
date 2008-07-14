@@ -4,6 +4,7 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   has_many :opinions
 	has_many :movies, :through=>:opinions, :select => "opinions.rating, opinions.comment, movies.*"
+	has_many :urls
   
   def self.authenticate(email, pass)
     find(:first, :conditions=>["email=? AND password=?", email, sha1(pass)])

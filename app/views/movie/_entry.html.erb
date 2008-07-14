@@ -2,7 +2,9 @@
 
 <h1><%=entry.title%></h1>
 Dirig&eacute; par <%=entry.director%> (<%=entry.year%>)<br/>
-<br/>
+<ol>
+<%= render(:partial=>'url/url', :collection=>entry.urls, :order=>'created_at') %>
+</ol>
 <b>Note</b>: <%= entry.rating %> / 5<br/>
 <b>Public</b>: <%= entry.opinions.size %> personnes<br/>
 <br/>

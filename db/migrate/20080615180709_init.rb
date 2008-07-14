@@ -26,12 +26,6 @@ class Init < ActiveRecord::Migration
       table.column :rating, :integer
     end
       
-    create_table :urls do |table|
-      table.column :movie_id, :integer
-      table.column :url, :string
-      table.column :created_at, :datetime
-    end
-      
   end
 
   def self.down

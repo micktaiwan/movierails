@@ -1,6 +1,8 @@
 class Movie < ActiveRecord::Base
   has_many :opinions
 	has_many :users, :through=>:opinions
+  has_many :urls
+  
 	
 	def rating
 	# TODO: cache the rating !

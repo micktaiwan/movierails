@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080706194244) do
+ActiveRecord::Schema.define(:version => 20080714114323) do
 
   create_table "movies", :force => true do |t|
     t.string   "title",      :null => false
@@ -29,8 +29,10 @@ ActiveRecord::Schema.define(:version => 20080706194244) do
 
   create_table "urls", :force => true do |t|
     t.integer  "movie_id",   :limit => 11
-    t.string   "url"
+    t.integer  "user_id",    :limit => 11
     t.datetime "created_at"
+    t.string   "name"
+    t.string   "url"
   end
 
   create_table "users", :force => true do |t|
