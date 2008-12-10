@@ -8,9 +8,9 @@ Dernieres revues:<br/>
 <%= render(:partial=>"reviews/last", :collection=>@reviews) %>
 </ul>
 
-
+<% if session['user'] %>
 Mes films:<br/>
 <ul id='my_movies'>
 <%= render(:partial=>"movie/my_movies", :collection=>@my_movies) %>
 </ul>
-
+<% end %>

@@ -1,7 +1,7 @@
 #require 'lib/proposer'
 
 class MovieController < ApplicationController
-  before_filter :login_required, :except => [:last]
+  before_filter :login_required, :except => [:last, :entry]
   protect_from_forgery :only => [:index] 
 
   def index
@@ -110,7 +110,7 @@ class MovieController < ApplicationController
       :comment=>op['comment'],
       :rating=>op['rating'].to_i
       )
-    o.save # I don't why I do not have to save the movie
+    o.save # I don't know why I do not have to save the movie
 
     # urls
     names = params['name']
@@ -200,7 +200,11 @@ class MovieController < ApplicationController
   def entry
     @entry = Movie.find(params[:id], :include=>"opinions")
     @user = session['user']
-    my = session['user'].movies.include?(@entry)
+    if session['user']
+      my = session['user'].movies.include?(@entry)
+    else
+      my = nil
+    end
     render(:partial=>'entry', :locals=>{:my=>my})
   end
   

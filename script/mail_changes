@@ -3,19 +3,32 @@
 # 0 0 * * 0 cd /home/protask/movies/script && /usr/local/bin/ruby runner -e production mail_changes
 
 
+mail = ""
 
-new_movies = "Voici les nouveaux films depuis hier:\n"
-nb = 0
+movies = Movie.find(:all, :conditions=>["created_at >= ?", Date.today() - 1])
 
-Movie.find(:all, :conditions=>"created_at >= NOW() - INTERVAL 1 DAY").each { |m|
-  next if m.title == nil or m.title == ''
-  nb += 1
-  new_movies += "- '#{m.title}' par #{m.director} (#{m.year}) Note: #{m.rating} / 5\n"
-  }
+if movies.size > 0
+  mail = "Voici les nouveaux films depuis hier:\n"
+  movies.each { |m|
+    next if m.title == nil or m.title == ''
+    mail += "- '#{m.title}' par #{m.director} (#{m.year}) Note: #{m.rating} / 5\n"
+    }
+  mail += "\n\n"
+end
 
-exit if nb == 0
+
+op = Opinion.find(:all, :conditions=>["created_at >= ?", Date.today() - 1])
+
+if op.size > 0
+  mail += "Nouveaux commentaires:\n"
+  op.each { |m|
+    mail += "- #{m.movie.title}: #{m.comment} (#{m.user.name})\n"
+    }
+end
+
+exit if mail == ""
 
 User.find(:all, :conditions=>"email != '' and want_mail = 1").each { |u|
-  AppMailer.deliver_mail_changes(u, new_movies)
+  AppMailer.deliver_mail_changes(u, mail)
   }
 

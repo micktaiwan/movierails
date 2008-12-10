@@ -7,7 +7,7 @@ Vous pouvez vous <%=link_to "enregistrer", :action=>'signup'%> (nouveau compte).
 <% form_tag :action=> "login" do %>
 	<label for="user_email">Email:</label>
    <input type="text" name="user[email]" id="user_email" size="30" value=""/><br/>
-   <label for="user_password">Password:</label>
+   <label for="user_password">Mot de passe:</label>
    <input type="password" name="user[password]" id="user_password" size="30"/><br/>
    <input type="submit" name="login" value="Login &#187;" class="submitbutton" /> <% if @message %><div id="notice"><%= @message %></div><% end %>
 <% end %>
@@ -15,13 +15,7 @@ Vous pouvez vous <%=link_to "enregistrer", :action=>'signup'%> (nouveau compte).
 </div>
 
 <h3>Perdu le pass ?</h3>
-<p>You are not required to give a email address when you sign up.<br/>
-But you can give one later by editing your user information.<br/>
-This will enable you to reset your password in case you forget it.<br/>
 <br/>
-Did you forget your password ?<br/>
-Type your email in this form, you will then receive a link by email to reset your password.<br/>
-</p>
 <% form_remote_tag(:update =>'status',:url => { :action => :send_reset_email }, :loading=>"$('status').innerHTML='Sending...'") do %>
 <label for="email">Email:</label>
 <%= text_field_tag :email %>
@@ -33,7 +27,7 @@ Type your email in this form, you will then receive a link by email to reset you
 
 <h2>About</h2>
 
-<p>Movies !</p>
+<p>Just a personal site about movies we saw.</p>
 
 <h3>Open source</h3>
 

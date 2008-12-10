@@ -19,17 +19,17 @@ ActiveRecord::Schema.define(:version => 20080714114323) do
   end
 
   create_table "opinions", :force => true do |t|
-    t.integer  "movie_id",   :limit => 11
-    t.integer  "user_id",    :limit => 11
+    t.integer  "movie_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.date     "saw_on"
     t.text     "comment"
-    t.integer  "rating",     :limit => 11
+    t.integer  "rating"
   end
 
   create_table "urls", :force => true do |t|
-    t.integer  "movie_id",   :limit => 11
-    t.integer  "user_id",    :limit => 11
+    t.integer  "movie_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.string   "name"
     t.string   "url"
