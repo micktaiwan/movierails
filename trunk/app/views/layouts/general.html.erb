@@ -19,13 +19,40 @@
 <% cur = @controller.class.controller_path -%>
 <ul id="header">
 <span id="clock"><%=Date.today.strftime('%A %b %d %Y')%></span>
+<% if session['user'] %>
 <span <% if cur=="welcome" then%>id="currentmenuline" <%end%>class="menuline"><a href="/">r&eacute;sum&eacute;</a></span>
 <span <% if cur=="movie" then%>id="currentmenuline" <%end%>class="menuline"><a href="/movie">films</a></span>
 <span <% if cur=="myinfo" then%>id="currentmenuline" <%end%> class="menuline"><a href="/myinfo">profile</a></span>
 <span id="logout"><a href="/account/logout">sortir</a></span>
+<% else %>
+<span id="currentmenuline" class="menuline"><a href="/account">A propos</a></span>
+<% end %>
 </ul>
 <div id="side">
+<% if session['user'] %>
 Bienvenue <%=session['user']['name']%>.<br/>
+<br/>
+<% else %>
+
+<h3>Login</h3>
+<%=link_to "Nouveau compte", :controller=>'account',:action=>'signup'%><br/>
+<br/>
+<div title="Account login" id="loginform" class="form">
+<% form_tag :action=> "login" do %>
+	Email:
+   <input type="text" name="user[email]" id="user_email" size="10" value=""/><br/>
+   Pwd :
+   <input type="password" name="user[password]" id="user_password" size="10"/><br/>
+   <input type="submit" name="login" value="Login &#187;" class="submitbutton" /> <% if @message %><div id="notice"><%= @message %></div><% end %>
+<% end %>
+<br/>
+</div>
+
+<% end %>
+<br/>
+<br/>
+Derniers films:<br/>
+<a href="http://movies.protaskm.com/movie/last.xml"><img src="/images/rss.jpg" border=0></a>
 <br/>
 
 <div id="notice"><% if flash[:notice] -%><h3>Notice</h3><%= flash[:notice] %><% end -%></div>
@@ -36,10 +63,10 @@ Bienvenue <%=session['user']['name']%>.<br/>
 
 <div id="content">
 <% form_remote_tag(:url=>'/movie/search', :update=>'entry') do %>
-
+<% if session['user'] %>
 Recherche:
 <%= text_field(:movie, :title) %>
-
+<% end %>
 <% end %>
 
 <div id="entry">

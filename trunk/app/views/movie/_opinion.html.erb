@@ -1,4 +1,10 @@
-<% my = (opinion.user_id == session['user']['id'].to_i) %>
+<% 
+my = nil
+if session['user']
+  my = (opinion.user_id == session['user']['id'].to_i)
+end
+%>
+
 <div class="comment <%=my ? 'my':''%>">
 
 <div id="user"><%= opinion.user.name %></div>
