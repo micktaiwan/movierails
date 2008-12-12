@@ -25,6 +25,7 @@
 <span <% if cur=="myinfo" then%>id="currentmenuline" <%end%> class="menuline"><a href="/myinfo">profile</a></span>
 <span id="logout"><a href="/account/logout">sortir</a></span>
 <% else %>
+<span id="currentmenuline" class="menuline"><a href="/">Home</a></span>
 <span id="currentmenuline" class="menuline"><a href="/account">A propos</a></span>
 <% end %>
 </ul>
@@ -38,7 +39,7 @@ Bienvenue <%=session['user']['name']%>.<br/>
 <%=link_to "Nouveau compte", :controller=>'account',:action=>'signup'%><br/>
 <br/>
 <div title="Account login" id="loginform" class="form">
-<% form_tag :action=> "login" do %>
+<% form_tag :controller=>'account', :action=> "login" do %>
 	Email:
    <input type="text" name="user[email]" id="user_email" size="10" value=""/><br/>
    Pwd :
@@ -73,12 +74,11 @@ Recherche:
 <%
 if @entry 
     opinions = @entry.opinions
-    my = session['user'].movies.include?(@entry)
+    my = false
+    my = session['user'].movies.include?(@entry) if session['user']
 %>
 <%= render(:partial=>'entry', :locals=>{:opinions=>opinions, :my=>my}) %>
-<%
-end
-%>
+<% end %>
 </div>
 
 <br/>

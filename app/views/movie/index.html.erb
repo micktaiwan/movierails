@@ -1,3 +1,5 @@
+<% if session['user'] %>
+
 <div class="notebook">
 <div class="bar">
 <% cur = session['user']['page']%>
@@ -6,7 +8,7 @@
 <div id="page_most_watched" class="tab<%if(cur=="most_watched")%> selected<%end%>"><%=link_to_remote('Plus regard&eacute;s',{:url=>{:action=>'most_watched'}, :update=>'mcontent'}, {:onclick=>'select_page("most_watched")'})%></div>
 <div id="page_sugg" class="tab<%if(cur=="sugg")%> selected<%end%>"><%=link_to_remote('Suggestions',{:url=>{:action=>'sugg'}, :update=>'mcontent'}, {:onclick=>'select_page("sugg")'})%></div>
 
-<input type="checkbox" id="include_mine" onchange="include_mine();"<%if session['user']['include_mine']%> checked<%end%>> inclure mes films
+<input type="checkbox" id="include_mine" onchange="include_mine();"<%if session['user'] and session['user']['include_mine']%> checked<%end%>> inclure mes films
 
 </div>
 
@@ -15,8 +17,8 @@
 <%= render(:partial=>'last', :collection=>@movies) %>
 </ul>
 </div>
-
 </div>
 
+<% end %>
 
 

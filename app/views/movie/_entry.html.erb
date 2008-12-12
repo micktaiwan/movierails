@@ -1,27 +1,27 @@
 <div class="entry">
 
-<h1><%=entry.title%></h1>
-Dirig&eacute; par <%=entry.director%> (<%=entry.year%>)<br/>
-<a href="http://movies.protaskm.com/movie/index/<%=entry.id%>">Permalink</a><br/>
+<h1><%=@entry.title%></h1>
+Dirig&eacute; par <%=@entry.director%> (<%=@entry.year%>)<br/>
+<a href="/movie/index/<%=@entry.id%>">Permalink</a><br/>
 <br/>
 Liens:
 <ol style="margin:0;">
-<%= render(:partial=>'url/url', :collection=>entry.urls, :order=>'created_at') %>
-<li><a href="http://www.imdb.com/find?q=<%=CGI::escape(entry.title)%>">Chercher IMDB</a></li>
-<li><a href="http://www.youtube.com/results?search_query=<%=CGI::escape(entry.title+" "+entry.director)%>">Chercher Youtube</a></li>
+<%= render(:partial=>'url/url', :collection=>@entry.urls, :order=>'created_at') %>
+<li><a href="http://www.imdb.com/find?q=<%=CGI::escape(@entry.title)%>">Chercher IMDB</a></li>
+<li><a href="http://www.youtube.com/results?search_query=<%=CGI::escape(@entry.title)%>">Chercher Youtube</a></li>
 </ol>
 <br/>
-<b>Note</b>: <%= entry.rating %> / 5<br/>
-<b>Public</b>: <%= entry.opinions.size %> personnes<br/>
+<b>Note</b>: <%= @entry.rating %> / 5<br/>
+<b>Public</b>: <%= @entry.opinions.size %> personnes<br/>
 <br/>
 
 <% if session['user'] %>
 
 <div id="menu">
 <% if(my) %>
-<%= link_to_remote('Retirer ce film de ma liste', {:url=>{:controller=>'movie',:action=>'remove', :id=>entry}, :update=>'entry',:confirm=>"Cela effacera aussi vos commentaires. Voulez-vous retirer ce film de votre liste ?"}, {:class=>'btnlnk'}) %>
+<%= link_to_remote('Retirer ce film de ma liste', {:url=>{:controller=>'movie',:action=>'remove', :id=>@entry}, :update=>'entry',:confirm=>"Cela effacera aussi vos commentaires. Voulez-vous retirer ce film de votre liste ?"}, {:class=>'btnlnk'}) %>
 <% else %>
-<%= link_to_remote('Ajouter ce film a ma liste', {:url=>{:controller=>'movie',:action=>'edit_comment_before_add', :id=>entry}, :update=>'entry'}, {:class=>'btnlnk'}) %>
+<%= link_to_remote('Ajouter ce film a ma liste', {:url=>{:controller=>'movie',:action=>'edit_comment_before_add', :id=>@entry}, :update=>'entry'}, {:class=>'btnlnk'}) %>
 <% end %>
 </div>
 
@@ -30,5 +30,5 @@ Liens:
 </div>
 
 Revues sur ce film:
-<%= render(:partial=>'opinion', :collection=>entry.opinions) %>
+<%= render(:partial=>'opinion', :collection=>@entry.opinions) %>
 

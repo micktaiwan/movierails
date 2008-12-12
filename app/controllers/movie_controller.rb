@@ -1,13 +1,14 @@
 #require 'lib/proposer'
 
 class MovieController < ApplicationController
-  before_filter :login_required, :except => [:last, :entry]
+  before_filter :login_required, :except => [:index, :last, :entry]
   protect_from_forgery :only => [:index] 
 
   def index
-    session['user']['page'] = 'last'
 	  id = params[:id]
     @entry = (id==nil ? nil : Movie.find(id))
+    return if not session['user']
+    session['user']['page'] = 'last'
     get_movies
 		@movies = @movies[0..14]
   end
@@ -222,7 +223,7 @@ private
 
   def get_movies
 		@movies = Movie.find(:all,:order=>'movies.created_at desc')
-		@movies -= session['user'].movies if session['user']['include_mine'] == false
+		@movies -= session['user'].movies if session['user'] and session['user']['include_mine'] == false
   end
 
 end
