@@ -70,7 +70,8 @@ class AppMailer < ActionMailer::Base
     @recipients = u.email
     @from       = 'protask@protaskm.com'
     @sent_on    = Time.now
-    @headers    = {}  
+    @headers    = {}
+    content_type "text/html"
   end
   
 end
