@@ -8,21 +8,21 @@ mail = ""
 movies = Movie.find(:all, :conditions=>["created_at >= ?", Date.today() - 1])
 
 if movies.size > 0
-  mail = "Voici les nouveaux films depuis hier:\n"
+  mail = "Voici les nouveaux films depuis hier:<br/>\n"
   movies.each { |m|
     next if m.title == nil or m.title == ''
-    mail += "- '#{m.title}' par #{m.director} (#{m.year}) Note: #{m.rating} / 5\n"
+    mail += "- <b>#{m.title}</b> par #{m.director} (#{m.year}) Note: #{m.rating} / 5<br/>\n"
     }
-  mail += "\n\n"
+  mail += "<br/>\n<br/>\n"
 end
 
 
 op = Opinion.find(:all, :conditions=>["created_at >= ?", Date.today() - 1])
 
 if op.size > 0
-  mail += "Nouveaux commentaires:\n"
+  mail += "Nouveaux commentaires:<br/>\n"
   op.each { |m|
-    mail += "- #{m.movie.title}: #{m.comment} (#{m.user.name})\n"
+    mail += "- <b>#{m.movie.title}:</b> #{m.comment} (#{m.user.name})<br/>\n"
     }
 end
 
