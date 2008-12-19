@@ -1,5 +1,11 @@
 #require 'lib/proposer'
+begin
 require 'linalg'
+# sudo apt-get install liblapack
+# get http://rubyforge.org/frs/?group_id=273&release_id=25907
+# ruby install.rb
+rescue Exception=>e
+end
 
 class MovieController < ApplicationController
   before_filter :login_required, :except => [:index, :last, :entry]
@@ -47,9 +53,8 @@ class MovieController < ApplicationController
 		@movies = @movies.sort_by{ |m| [-m.opinions.size,-m.rating]}[0..14]
     render(:partial=>'last', :collection=>@movies)
   end
-=begin  
-  def sugg
-    session['user']['page'] = 'sugg'
+  
+  def sugg_simple
 		#m = Movie.find(:all)
     #u = User.find(:all)
     user = session['user']
@@ -58,29 +63,30 @@ class MovieController < ApplicationController
     p.db = Opinion.find(:all).map { |o| [o.user, o.movie]}
     str = "<b>En test !</b><br/><br/>"
     p.propose(user)
-    str += "user #{user.name} items: #{p.user_items.collect{|m| m.title}.join(', ')}<br/>"
-  	p.items.each { |u,c|
-  		str += "item #{u.title} is owned by #{c} users other than user #{user.name}<br/>"
-  		}
-  	p.users.each { |u,c|
-  		str += "user <b>#{u.name}</b> has #{c} item in common, and has a weight of #{c}<br/>"
-  		str += "items: "+p.get_items(u,[]).collect{|m| m.title}.join(',') + "<br/>"
-  		}
-  	str += "<br/>"
-  	str += "Finally here is the list of proposed items for user #{user.name}<br/>"
-  	p.proposed_items.each { |item,count|
-  		str += "#{item.title} has a weight of #{count}<br/>"
-  		}
-  	str += "<br/><b>En enlevant les navets, ca fait au final:</b><br/>"	
+    #str += "user #{user.name} items: #{p.user_items.collect{|m| m.title}.join(', ')}<br/>"
+  	#p.items.each { |u,c|
+  	#	str += "item #{u.title} is owned by #{c} users other than user #{user.name}<br/>"
+  	#	}
+  	#p.users.each { |u,c|
+  	#	str += "user <b>#{u.name}</b> has #{c} items in common, and suggests<br/>"
+  	#	str += p.get_items(u,[]).sort_by{ |u| -u.rating}.map{|i| "- #{i.rating}: #{i.title}"}.join('<br/>') + "<br/>"
+  	#	}
+  	#str += "<br/>"
+  	#str += "Finally here is the list of proposed items for user #{user.name}<br/>"
+  	#p.proposed_items.each { |item,count|
+  	#	str += "#{item.title} has a weight of #{count}<br/>"
+  	#	}
+  	str += "<b>Films suggérés:</b><br/>"	
   	p.proposed_items.sort_by {|item,count| -item.rating}.each { |item,count|
-  		str += "- <a href='/movie/index/#{item.id}'>#{item.title}</a> Note: #{item.rating}<br/>" if item.rating >= 3
+  		str += "- <a href='/movie/index/#{item.id}'>#{item.title}</a> Note: #{item.rating}<br/>"
   		}
     #render(:partial=>'last', :collection=>@movies)
     render(:text=>str)
   end
-=end
 
   def sugg
+    session['user']['page'] = 'sugg'
+    sugg_simple and return if not defined? Linalg::DMatrix
     # users = { 1 => "Ben", 2 => "Tom", 3 => "John", 4 => "Fred" }
     user = session['user']
     @users = User.find(:all,:conditions=>"id!=#{user.id}").map {|u| [u.id,u.name]}
