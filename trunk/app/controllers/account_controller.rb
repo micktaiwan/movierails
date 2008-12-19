@@ -17,11 +17,10 @@ class AccountController < ApplicationController
           u.last_login = Time.now
           u.save
           # send an email to admin
-          AppMailer.deliver_alert("Login Alert","#{session['user']['name']} just logged on Movies")
+          # AppMailer.deliver_alert("Login Alert","#{session['user']['name']} just logged on Movies")
           flash['notice']  = "Login successful"
           redirect_back_or_default :controller => "welcome"
         else
-          #puts "Error"
           @login    = params['user_login']
           @message  = "Login unsuccessful"
       end
