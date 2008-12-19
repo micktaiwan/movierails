@@ -1,4 +1,5 @@
 #require 'lib/proposer'
+require 'linalg'
 
 class MovieController < ApplicationController
   before_filter :login_required, :except => [:index, :last, :entry]
@@ -46,7 +47,7 @@ class MovieController < ApplicationController
 		@movies = @movies.sort_by{ |m| [-m.opinions.size,-m.rating]}[0..14]
     render(:partial=>'last', :collection=>@movies)
   end
-  
+=begin  
   def sugg
     session['user']['page'] = 'sugg'
 		#m = Movie.find(:all)
@@ -77,6 +78,48 @@ class MovieController < ApplicationController
     #render(:partial=>'last', :collection=>@movies)
     render(:text=>str)
   end
+=end
+
+  def sugg
+    # users = { 1 => "Ben", 2 => "Tom", 3 => "John", 4 => "Fred" }
+    user = session['user']
+    @users = User.find(:all,:conditions=>"id!=#{user.id}").map {|u| [u.id,u.name]}
+    @users = Hash[*@users.collect { |v| [v[0], v[1]]}.flatten] # to hash
+    
+    movies = []
+    Movie.find(:all,:order=>"id").each {|m| movies << m.user_matrix(user.id)}
+    @movies = Linalg::DMatrix.rows(movies)
+
+    # Compute the SVD Decomposition
+    u, s, vt = @movies.singular_value_decomposition
+    vt = vt.transpose
+     
+    # Take the 2-rank approximation of the Matrix
+    #   - Take first and second columns of u  (6x2)
+    #   - Take first and second columns of vt (4x2)
+    #   - Take the first two eigen-values (2x2)
+    u2 = Linalg::DMatrix.join_columns [u.column(0), u.column(1)]
+    v2 = Linalg::DMatrix.join_columns [vt.column(0), vt.column(1)]
+    eig2 = Linalg::DMatrix.columns [s.column(0).to_a.flatten[0,2], s.column(1).to_a.flatten[0,2]]
+     
+    # Here comes Bob, our new user
+    bob = Linalg::DMatrix.rows( ([] << user.movie_matrix) )
+    bobEmbed = bob * u2 * eig2.inverse
+     
+    # Compute the cosine similarity between Bob and every other User in our 2-D space
+    user_sim, count = {}, 1
+    v2.rows.each { |x|
+        user_sim[count] = (bobEmbed.transpose.dot(x.transpose)) / (x.norm * bobEmbed.norm)
+        user_sim[count] = 0 if user_sim[count].to_s == "NaN"
+        count += 1
+      }
+     
+    # Remove all users who fall below the 0.90 cosine similarity cutoff and sort by similarity
+    @sim_users = user_sim.delete_if {|k,sim| sim < 0.9 }.sort {|a,b| b[1] <=> a[1] }
+    @myItems = bob.transpose.to_a.flatten
+    render(:partial=>'sugg.html.erb')
+  end
+  
   
   def search_form
     render(:partial=>'search_form')
@@ -103,6 +146,7 @@ class MovieController < ApplicationController
   def create
     p = params['movie']
     movie = Movie.new(p) # TODO: verify that this exact title (and year) does not exists ?
+    movie.title.strip!
     user  = session['user']
     op    = params['opinion']
     o     = Opinion.new(

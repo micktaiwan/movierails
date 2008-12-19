@@ -1,0 +1,28 @@
+Not working yet.<br/>
+<% if @sim_users.size > 0 %>
+
+No similars users found.
+
+<% else
+    similarUsersItems = @movies.column(@sim_users[0][0]-1).transpose.to_a.flatten
+    @sim_users.each { |u| %>
+    
+<%= "#{@users[u[0]]} (ID: #{u[0]}, Similarity: #{u[1]})<br/>" %>
+
+<%
+    not_seen_yet = {}
+    @myItems.each_index { |i|
+      not_seen_yet[i+1] = similarUsersItems[i] if @myItems[i] == 0 and similarUsersItems[i] != 0
+    }
+%>
+
+<%= "#{@users[u[0]]} recommends: <br/>"  %>
+<% 
+    not_seen_yet.sort {|a,b| b[1] <=> a[1] }.each { |item| %>
+<%= "#{item[0]} : I gave it a rating of #{item[1]}<br/>" %>
+<%  }
+
+}
+
+end
+%>    
