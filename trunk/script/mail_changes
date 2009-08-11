@@ -11,7 +11,7 @@ if movies.size > 0
   mail = "Voici les nouveaux films depuis hier:<br/>\n"
   movies.each { |m|
     next if m.title == nil or m.title == ''
-    mail += "- <b>#{m.title}</b> par #{m.director} (#{m.year}) Note: #{m.rating} / 5<br/>\n"
+    mail += "- <b>#{m.title}</b> par #{m.director} (#{m.year}) Note: #{m.rating} / 10<br/>\n"
     }
   mail += "<br/>\n<br/>\n"
 end
