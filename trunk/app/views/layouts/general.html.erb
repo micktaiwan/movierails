@@ -63,6 +63,13 @@ Derniers films:<br/>
 </div>
 
 <div id="content">
+
+<% if session['user'] %>
+Les notes sont sur 10 maintenant. J'ai fait (notes * 2 - 1) donc si yavait un film avec un 3/5 il aura 5/10, mais maintenant aucun film n'a 10/10. Réajustez vos notes :)<br/>
+<br/>
+<% end %>
+
+
 <% form_remote_tag(:url=>'/movie/search', :update=>'entry') do %>
 <% if session['user'] %>
 Recherche:
