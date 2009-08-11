@@ -46,6 +46,14 @@ class MovieController < ApplicationController
 		@movies = @movies.sort_by{ |m| [-m.rating,-m.opinions.size]}[0..14]
     render(:partial=>'last', :collection=>@movies)
   end
+
+  def mine
+    session['user']['page'] = 'mine'
+		@movies = session['user'].movies # Movie.find(:all,:conditions=>["user_id=?",session['user'][:id] ])
+		@movies = @movies.sort_by{ |m| [-m.rating,-m.opinions.size]}
+    render(:partial=>'last', :collection=>@movies)
+  end
+
   
   def most_watched
     session['user']['page'] = 'most_watched'
@@ -61,7 +69,7 @@ class MovieController < ApplicationController
     p = Proposer.new
     #p.use_item_weight = true
     p.db = Opinion.find(:all).map { |o| [o.user, o.movie]}
-    str = "<b>En test !</b><br/><br/>"
+    str = ""
     p.propose(user)
     #str += "user #{user.name} items: #{p.user_items.collect{|m| m.title}.join(', ')}<br/>"
   	#p.items.each { |u,c|

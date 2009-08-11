@@ -5,11 +5,10 @@
 <%= hidden_field(:movie, :id, :value=>movie.id) %>
 
 <label for="opinion_rating">Note:</label>
-<%= radio_button(:opinion, :rating, 1) %> 1
-<%= radio_button(:opinion, :rating, 2) %> 2
-<%= radio_button(:opinion, :rating, 3) %> 3
-<%= radio_button(:opinion, :rating, 4) %> 4
-<%= radio_button(:opinion, :rating, 5) %> 5<br/>
+<% for i in (1..10) do %>
+<%= radio_button(:opinion, :rating, i) %> <%=i%>
+<% end %>
+<br/>
 
 <label for="opinion_comment">Votre revue:</label>
 <%= text_area(:opinion, :comment, :cols=>60, :rows=>20) %><br/>
