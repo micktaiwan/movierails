@@ -215,7 +215,7 @@ class MovieController < ApplicationController
   end
 
   def add
-    id = params['movie']['id'].to_i
+    id = params[:id].to_i
     movie = Movie.find(id)
     user  = session['user']
     op = params['opinion']
