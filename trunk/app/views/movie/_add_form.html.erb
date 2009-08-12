@@ -1,8 +1,6 @@
 <b><%= movie.title %></b><br/>
 <br/>
-<% form_tag({:action=>'add'}) do %>
-
-<%= hidden_field(:movie, :id, :value=>movie.id) %>
+<% form_tag({:action=>'add', :id=>movie.id}) do %>
 
 <label for="opinion_rating">Note:</label>
 <% for i in (0..10) do %>
