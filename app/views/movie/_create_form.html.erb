@@ -1,11 +1,11 @@
 Aucun film trouv&eacute;. Ajoutez votre film:<br/>
 <br/>
 <% form_tag(:action=>'create') do %>
-<label for="movie_title">Titre (fr):</label>
+<label for="movie_title">Titre (fr)</label>
 <%= text_field(:movie, :title) %><br/>
 <label for="movie_year">Ann&eacute;e</label>
 <%= text_field(:movie, :year) %><br/>
-<label for="movie_director">Directeur</label>
+<label for="movie_director">Réalisateur</label>
 <%= text_field(:movie, :director) %><br/>
 
 <label for="opinion_rating">Note</label>
