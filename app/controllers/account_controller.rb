@@ -17,7 +17,7 @@ class AccountController < ApplicationController
       if params['openid_identifier'] != ''
         # http://openid-provider.appspot.com/foo@bar.com
         # http://openid-provider.appspot.com/faivrem
-        open_id_authentication #(params['openid_identifier'])
+        open_id_authentication
         return
       end
     
@@ -36,6 +36,11 @@ class AccountController < ApplicationController
       end
     end
   end
+  
+  def openid
+    open_id_authentication
+  end
+  
   
   def signup
     case request.method

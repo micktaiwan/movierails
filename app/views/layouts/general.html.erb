@@ -48,6 +48,9 @@ Bienvenue <%=session['user']['name']%>.<br/>
     OpenID:
     <input type="text" name="openid_identifier" size="10"/><br/>
     <input type="submit" name="login" value="Login &#187;" class="submitbutton" /><br/>
+    <br/>
+    <img src="/images/openid.png">
+    <a href="/account/openid?openid_identifier=https://www.google.com/accounts/o8/id">Sign with Google</a><br/>
     <% if @message %><div id="notice"><%= @message %></div><% end %>
 <%= flash[:error] %>
 
