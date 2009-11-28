@@ -44,7 +44,13 @@ Bienvenue <%=session['user']['name']%>.<br/>
    <input type="text" name="user[email]" id="user_email" size="10" value=""/><br/>
    Pwd :
    <input type="password" name="user[password]" id="user_password" size="10"/><br/>
-   <input type="submit" name="login" value="Login &#187;" class="submitbutton" /> <% if @message %><div id="notice"><%= @message %></div><% end %>
+   Or<br/>
+    OpenID:
+    <input type="text" name="openid_identifier" size="10"/><br/>
+    <input type="submit" name="login" value="Login &#187;" class="submitbutton" /><br/>
+    <% if @message %><div id="notice"><%= @message %></div><% end %>
+<%= flash[:error] %>
+
 <% end %>
 <br/>
 </div>
