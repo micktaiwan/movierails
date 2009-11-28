@@ -1,7 +1,7 @@
 <% 
 my = nil
 if session['user']
-  my = (opinion.user_id == session['user']['id'].to_i)
+  my = (opinion.user_id == session['user'].get_user['id'].to_i)
 end
 %>
 

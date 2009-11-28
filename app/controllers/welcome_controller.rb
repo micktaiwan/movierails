@@ -5,7 +5,7 @@ class WelcomeController < ApplicationController
 	  id = params[:id]
     @entry = (id==nil ? nil : Movie.find(id))
     if session['user']
-      @my_movies = session['user'].movies
+      @my_movies = session['user'].get_user.movies
 		else
       @my_movies = []
     end

@@ -3,7 +3,7 @@ class MyinfoController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def index
-  @user = session['user']
+    @user = session['user'].get_user
   end
 
   verify :method => :post, :only => [:update ], :redirect_to => { :action => :index }
@@ -11,9 +11,8 @@ class MyinfoController < ApplicationController
   # Ajaxed
   def update
     begin
-      u = User.find(session['user']['id'])
+      u = session['user'].get_user
       u.update_attributes!(params[:user]) # raise an error
-      session['user'] = u
       render(:text=>'0')
     rescue Exception=>e
       render(:text=>e.message)

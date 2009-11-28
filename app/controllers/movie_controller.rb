@@ -15,14 +15,15 @@ class MovieController < ApplicationController
 	  id = params[:id]
     @entry = (id==nil ? nil : Movie.find(id))
     return if not session['user']
-    session['user']['page'] = 'last'
+    session['user'].get_user['page'] = 'last'
     get_movies
 		@movies = @movies[0..14]
   end
   
   def display_list
-    session['user']['page'] = 'last' if session['user']['page'] == nil
-    redirect_to(:action=>session['user']['page'])
+    user = session['user'].get_user
+    user['page'] = 'last' if user['page'] == nil
+    redirect_to(:action=>user['page'])
   end
  
   def last
@@ -32,7 +33,7 @@ class MovieController < ApplicationController
 		    render :template => 'movie/last.xml.builder', :layout => false
 		    }
 		  format.html {
-        session['user']['page'] = 'last'
+        session['user'].get_user['page'] = 'last'
         get_movies
 		    @movies = @movies[0..14]
         render(:partial=>'last', :collection=>@movies)
@@ -41,22 +42,22 @@ class MovieController < ApplicationController
   end
   
   def best
-    session['user']['page'] = 'best'
+    session['user'].get_user['page'] = 'best'
     get_movies
 		@movies = @movies.sort_by{ |m| [-m.rating,-m.opinions.size]}[0..14]
     render(:partial=>'last', :collection=>@movies)
   end
 
   def mine
-    session['user']['page'] = 'mine'
-		@movies = session['user'].movies # Movie.find(:all,:conditions=>["user_id=?",session['user'][:id] ])
+    session['user'].get_user['page'] = 'mine'
+		@movies = session['user'].get_user.movies # Movie.find(:all,:conditions=>["user_id=?",session['user'].get_user[:id] ])
 		@movies = @movies.sort_by{ |m| [-m.rating,-m.opinions.size]}
     render(:partial=>'last', :collection=>@movies)
   end
 
   
   def most_watched
-    session['user']['page'] = 'most_watched'
+    session['user'].get_user['page'] = 'most_watched'
     get_movies
 		@movies = @movies.sort_by{ |m| [-m.opinions.size,-m.rating]}[0..14]
     render(:partial=>'last', :collection=>@movies)
@@ -65,7 +66,7 @@ class MovieController < ApplicationController
   def sugg_simple
 		#m = Movie.find(:all)
     #u = User.find(:all)
-    user = session['user']
+    user = session['user'].get_user
     p = Proposer.new
     #p.use_item_weight = true
     p.db = Opinion.find(:all).map { |o| [o.user, o.movie]}
@@ -93,10 +94,10 @@ class MovieController < ApplicationController
   end
 
   def sugg
-    session['user']['page'] = 'sugg'
+    user = session['user'].get_user
+    user['page'] = 'sugg'
     sugg_simple and return if not defined? Linalg::DMatrix
     # users = { 1 => "Ben", 2 => "Tom", 3 => "John", 4 => "Fred" }
-    user = session['user']
     @users = User.find(:all,:conditions=>"id!=#{user.id}").map {|u| [u.id,u.name]}
     @users = Hash[*@users.collect { |v| [v[0], v[1]]}.flatten] # to hash
     
@@ -161,7 +162,7 @@ class MovieController < ApplicationController
     p = params['movie']
     movie = Movie.new(p) # TODO: verify that this exact title (and year) does not exists ?
     movie.title.strip!
-    user  = session['user']
+    user  = session['user'].get_user
     op    = params['opinion']
     o     = Opinion.new(
       :user=>user,
@@ -193,7 +194,7 @@ class MovieController < ApplicationController
   def edit_comment_before_add
     id = params['id'].to_i
     movie = Movie.find(id)
-    user  = session['user']
+    user  = session['user'].get_user
     if user.movies.include?(movie)
       render(:text=>"D&eacute;ja dans vos films...")
       return
@@ -206,7 +207,7 @@ class MovieController < ApplicationController
   def edit_comment
     id = params['id'].to_i
     @opinion = Opinion.find(id)
-    user = session['user']
+    user = session['user'].get_user
     render(:text=>"Ce film n'est pas dans votre liste...") and return if @opinion.user_id != user.id
     #urls = Url.find_by_movie_id_and_user_id(id,user.id)
     urls = Url.find(:all,:conditions=>["movie_id=? and user_id=?",id,user.id])
@@ -217,7 +218,7 @@ class MovieController < ApplicationController
   def add
     id = params[:id].to_i
     movie = Movie.find(id)
-    user  = session['user']
+    user  = session['user'].get_user
     op = params['opinion']
     o = Opinion.find(:first, :conditions=>["user_id = ? AND movie_id = ?", user['id'], id])
     if o
@@ -252,15 +253,15 @@ class MovieController < ApplicationController
   end
   
   def remove
-    Opinion.find(:first, :conditions=>["user_id = ? AND movie_id = ?", session['user']['id'], params[:id]]).destroy
+    Opinion.find(:first, :conditions=>["user_id = ? AND movie_id = ?", session['user'].get_user['id'], params[:id]]).destroy
     render(:text=>"Ce film a &eacute;t&eacute; retir&eacute; de votre liste!")
   end
   
   def entry
     @entry = Movie.find(params[:id], :include=>"opinions")
-    @user = session['user']
     if session['user']
-      my = session['user'].movies.include?(@entry)
+      @user = session['user'].get_user
+      my = @user.movies.include?(@entry)
     else
       my = nil
     end
@@ -269,19 +270,18 @@ class MovieController < ApplicationController
   
   def include_mine
     i = params['i'].to_i
-    session['user']['include_mine'] = i
-    u = User.find(session['user'].id)
+    u =  session['user'].get_user
     u.include_mine = i
     u.save
-    #render(:text=>session['user']['include_mine'])
     redirect_to(:action=>'display_list')
   end
   
 private
 
   def get_movies
+    user = session['user'].get_user
 		@movies = Movie.find(:all,:order=>'movies.created_at desc')
-		@movies -= session['user'].movies if session['user'] and session['user']['include_mine'] == false
+		@movies -= user.movies if user and user['include_mine'] == false
   end
 
 end
