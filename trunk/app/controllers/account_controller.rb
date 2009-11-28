@@ -1,3 +1,5 @@
+require 'openid'
+
 class AccountController < ApplicationController
   layout  'login'
   include LoginSystem
@@ -10,19 +12,27 @@ class AccountController < ApplicationController
   def login
     #STDERR.puts "Login"
     case request.method
-      when :post
-        u = User.authenticate(params['user']['email'], params['user']['password'])
-        if u
-          session['user'] = u
-          u.last_login = Time.now
-          u.save
-          # send an email to admin
-          # AppMailer.deliver_alert("Login Alert","#{session['user']['name']} just logged on Movies")
-          flash['notice']  = "Login successful"
-          redirect_back_or_default :controller => "welcome"
-        else
-          @login    = params['user_login']
-          @message  = "Login unsuccessful"
+    when :post
+
+      if params['openid_identifier'] != ''
+        # http://openid-provider.appspot.com/foo@bar.com
+        # http://openid-provider.appspot.com/faivrem
+        open_id_authentication #(params['openid_identifier'])
+        return
+      end
+    
+      u = User.authenticate(params['user']['email'], params['user']['password'])
+      if u
+        session['user'] = u
+        u.last_login = Time.now
+        u.save
+        # send an email to admin
+        # AppMailer.deliver_alert("Login Alert","#{session['user']['name']} just logged on Movies")
+        flash['notice']  = "Login successful"
+        redirect_back_or_default :controller => "welcome"
+      else
+        @login    = params['user_login']
+        @message  = "Login unsuccessful"
       end
     end
   end
@@ -59,7 +69,6 @@ class AccountController < ApplicationController
   def logout
     session['user']  = nil
     session['admin'] = nil
-    session[:selected_project] = nil
   end
   
   # send an email to reset the user password
@@ -113,5 +122,31 @@ class AccountController < ApplicationController
       render(:text=>e.message)
     end
   end
-   
+  
+private   
+
+  def open_id_authentication
+    authenticate_with_open_id do |result, identity_url|
+      if result.successful?
+        if @current_user = User.find_by_identity_url(identity_url)
+          successful_login
+        else
+          redirect_to("/openid/associate_login?iurl=#{identity_url}")
+        end
+      else
+        failed_login result.message
+      end
+    end  
+  end
+  
+  def successful_login
+    session['user'] = @current_user
+    redirect_to("/")
+  end
+
+  def failed_login(message)
+    flash[:error] = message
+    redirect_to("/")
+  end
 end
+
