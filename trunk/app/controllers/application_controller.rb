@@ -28,7 +28,14 @@ private
          return false
       end
    end
- 
+
   
+end
+
+
+class Fixnum
+  def get_user
+    User.find(self)
+  end
 end
 

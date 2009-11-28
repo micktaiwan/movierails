@@ -1,4 +1,4 @@
-<li <% if session['user'] and session['user'].movies.include?(last.movie)%>class="tosee"<%end%>>
+<li <% if session['user'] and session['user'].get_user.movies.include?(last.movie)%>class="tosee"<%end%>>
 (<%= last.rating %>/10) <b><%= last.user.name%></b>: <%= last.comment %>
 <%=link_to_remote('Voir', {:url=>{:controller=>'movie', :action=>'entry', :id=>last.movie.id}, :update=>'entry',:loading=>"loading('c#{last.id}',true)",:loaded=>"loading('c#{last.id}',false)"},{:id=>"c#{last.id}"})%>
 <b>"<%= last.movie.title %>"</b>

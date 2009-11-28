@@ -23,7 +23,7 @@ class AccountController < ApplicationController
     
       u = User.authenticate(params['user']['email'], params['user']['password'])
       if u
-        session['user'] = u
+        session['user'] = u.id
         u.last_login = Time.now
         u.save
         # send an email to admin
@@ -52,14 +52,12 @@ class AccountController < ApplicationController
         end   
         flash['error']  = ""
         if @user.save      
-          session['user'] = User.authenticate(@user.email, params['user']['password'])
-          AppMailer.deliver_alert("Registration Alert","#{session['user']['name']} just registered on Movies")
-          #AppMailer.deliver_registration_mail(session['user']) #if not @user.email.blank?
+          session['user'] = @user.id
+          AppMailer.deliver_alert("Registration Alert","#{session['user'].get_user['name']} just registered on Movies")
           redirect_back_or_default :controller => "welcome"
         end
       when :get
         flash['error']  = ""
-        #@user = User.new
     end      
   end  
   
@@ -121,7 +119,6 @@ class AccountController < ApplicationController
       @user.update_attribute(:lost_key,'') # the url is now invalid
       @user.update_attributes!(params[:pwd]) # raise an error if validation failed
       #@user.save! # to trigger before_update
-      #session['user'] = u # uncomment if you want the user to login automatically
       render(:text => 'You can now log in with your new password')
     rescue Exception=>e
       render(:text=>e.message)
@@ -145,7 +142,7 @@ private
   end
   
   def successful_login
-    session['user'] = @current_user
+    session['user'] = @current_user.id
     redirect_to("/")
   end
 

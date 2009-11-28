@@ -31,7 +31,7 @@
 </ul>
 <div id="side">
 <% if session['user'] %>
-Bienvenue <%=session['user']['name']%>.<br/>
+Bienvenue <%=session['user'].get_user['name']%>.<br/>
 <br/>
 <% else %>
 
@@ -93,7 +93,7 @@ Recherche:
 if @entry 
     opinions = @entry.opinions
     my = false
-    my = session['user'].movies.include?(@entry) if session['user']
+    my = session['user'].get_user.movies.include?(@entry) if session['user']
 %>
 <%= render(:partial=>'entry', :locals=>{:opinions=>opinions, :my=>my}) %>
 <% end %>

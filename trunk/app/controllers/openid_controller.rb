@@ -8,7 +8,7 @@ class OpenidController < ApplicationController
     @iurl = params[:iurl]
     u = User.authenticate(params['user']['email'], params['user']['password'])
     if u
-      session['user'] = u
+      session['user'] = u.id
       u.last_login = Time.now
       u.identity_url = @iurl
       u.save

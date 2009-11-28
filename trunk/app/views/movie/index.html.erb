@@ -1,15 +1,17 @@
-<% if session['user'] %>
+<% if session['user'] 
+user = session['user'] .get_user
+%>
 
 <div class="notebook">
 <div class="bar">
-<% cur = session['user']['page']%>
+<% cur = user['page']%>
 <div id="page_last" class="tab<%if(cur=="last")%> selected<%end%>"><%=link_to_remote('Derniers',{:url=>{:action=>'last'}, :update=>'mcontent'}, {:onclick=>'select_page("last")'})%></div>
 <div id="page_best" class="tab<%if(cur=="best")%> selected<%end%>"><%=link_to_remote('Meilleurs',{:url=>{:action=>'best'}, :update=>'mcontent'}, {:onclick=>'select_page("best")'})%></div>
 <div id="page_most_watched" class="tab<%if(cur=="most_watched")%> selected<%end%>"><%=link_to_remote('Plus regard&eacute;s',{:url=>{:action=>'most_watched'}, :update=>'mcontent'}, {:onclick=>'select_page("most_watched")'})%></div>
 <div id="page_sugg" class="tab<%if(cur=="sugg")%> selected<%end%>"><%=link_to_remote('Suggestions',{:url=>{:action=>'sugg'}, :update=>'mcontent'}, {:onclick=>'select_page("sugg")'})%></div>
 <div id="page_mine" class="tab<%if(cur=="mine")%> selected<%end%>"><%=link_to_remote('Les miens',{:url=>{:action=>'mine'}, :update=>'mcontent'}, {:onclick=>'select_page("mine")'})%></div>
 
-<input type="checkbox" id="include_mine" onchange="include_mine();"<%if session['user'] and session['user']['include_mine']%> checked<%end%>> inclure mes films
+<input type="checkbox" id="include_mine" onchange="include_mine();"<%if user['include_mine']%> checked<%end%>> inclure mes films
 
 </div>
 
