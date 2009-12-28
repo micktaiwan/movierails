@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
   include LoginSystem
   
   before_filter :disable_link_prefetching
-  
     
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
@@ -29,9 +28,7 @@ private
       end
    end
 
-  
 end
-
 
 class Fixnum
   def get_user
