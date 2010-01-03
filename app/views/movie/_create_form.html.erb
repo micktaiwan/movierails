@@ -1,4 +1,6 @@
 Aucun film trouv&eacute;. Ajoutez votre film:<br/>
+<a href="http://www.imdb.com/find?q=<%=CGI::escape(title)%>">Chercher IMDB</a><br/>
+<a href="http://www.youtube.com/results?search_query=<%=CGI::escape(title)%>">Chercher Youtube</a><br/>
 <br/>
 <% form_tag(:action=>'create') do %>
 <label for="movie_title">Titre (fr)</label>

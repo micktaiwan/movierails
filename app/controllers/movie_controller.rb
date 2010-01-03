@@ -145,7 +145,7 @@ class MovieController < ApplicationController
     t = m['title']
     movies = Movie.find(:all, :conditions=>"title like '%#{t}%' or director like '%#{t}%' or year like '%#{t}%'")
     if movies.size == 0
-      render(:partial=>"create_form")
+      render(:partial=>"create_form", :locals=>{:title=>t})
       return
     else
       render(:partial=>"search", :locals=>{:movies=>movies})
